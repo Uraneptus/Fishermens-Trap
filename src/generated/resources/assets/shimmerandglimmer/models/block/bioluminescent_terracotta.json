@@ -1,0 +1,6 @@
+{
+  "parent": "shimmerandglimmer:block/cube_no_shade",
+  "textures": {
+    "all": "shimmerandglimmer:block/bioluminescent_terracotta"
+  }
+}

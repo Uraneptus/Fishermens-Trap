@@ -1,0 +1,6 @@
+{
+  "parent": "shimmerandglimmer:block/glowworms",
+  "textures": {
+    "cross": "shimmerandglimmer:block/glowworms_base"
+  }
+}

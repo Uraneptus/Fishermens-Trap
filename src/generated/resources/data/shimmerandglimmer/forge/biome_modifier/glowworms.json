@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#shimmerandglimmer:glowworms_generate_in",
+  "features": "shimmerandglimmer:glowworms",
+  "step": "vegetal_decoration"
+}
