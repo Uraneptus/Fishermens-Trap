@@ -8,9 +8,9 @@ modId = "fishermens_trap" #mandatory
 version = "${file.jarVersion}" #mandatory
 logoFile = "fishermens_trap_banner.png" #optional
 authors = "Uraneptus" #optional
-credits = "Assets by GoesBySully" #optional
+credits = "Assets and Idea by toomanykitkats" #optional
 displayURL = "https://github.com/Uraneptus/ShimmerAndGlimmer"
-displayName = "Shimmer And Glimmer" #mandatory
+displayName = "Fishermens Trap" #mandatory
 description = '''
 '''
 displayTest = "MATCH_VERSION"

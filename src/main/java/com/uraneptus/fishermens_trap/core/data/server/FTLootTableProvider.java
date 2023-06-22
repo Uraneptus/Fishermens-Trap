@@ -39,7 +39,7 @@ public class FTLootTableProvider extends LootTableProvider {
     private static class SMBlockLoot extends BlockLoot {
         @Override
         protected void addTables() {
-
+            this.dropSelf(FTBlocks.FISHTRAP.get());
         }
 
         @Override

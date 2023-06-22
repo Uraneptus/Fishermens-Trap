@@ -1,6 +1,7 @@
 package com.uraneptus.fishermens_trap.core.data.client;
 
 import com.uraneptus.fishermens_trap.FishermensTrap;
+import com.uraneptus.fishermens_trap.core.registry.FTBlocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -20,6 +21,7 @@ public class FTItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
+        basicBlockItem(FTBlocks.FISHTRAP);
     }
 
     private void basicBlockItem(Supplier<? extends Block> blockForItem) {
@@ -36,9 +38,5 @@ public class FTItemModelProvider extends ItemModelProvider {
 
     private void blockItemWithItemTexture(Supplier<? extends Block> blockForItem) {
         basicItem(blockForItem.get().asItem());
-    }
-
-    private void glowwormsItem(Supplier<? extends Block> blockForItem) {
-        withExistingParent(name(blockForItem.get()), GENERATED).texture(LAYER0, modBlockLocation(name(blockForItem.get()) + "_end"));
     }
 }

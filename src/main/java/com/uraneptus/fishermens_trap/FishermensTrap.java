@@ -8,6 +8,7 @@ import com.uraneptus.fishermens_trap.core.data.server.FTLootTableProvider;
 import com.uraneptus.fishermens_trap.core.data.server.tags.FTBiomeTagsProvider;
 import com.uraneptus.fishermens_trap.core.data.server.tags.FTBlockTagsProvider;
 import com.uraneptus.fishermens_trap.core.data.server.tags.FTItemTagsProvider;
+import com.uraneptus.fishermens_trap.core.registry.FTBlockEntityType;
 import com.uraneptus.fishermens_trap.core.registry.FTBlocks;
 import com.uraneptus.fishermens_trap.core.registry.FTItems;
 import net.minecraft.data.DataGenerator;
@@ -38,6 +39,7 @@ public class FishermensTrap {
         bus.addListener(this::gatherData);
 
         FTBlocks.BLOCKS.register(bus);
+        FTBlockEntityType.BLOCK_ENTITY_TYPE.register(bus);
         FTItems.ITEMS.register(bus);
 
         MinecraftForge.EVENT_BUS.register(this);

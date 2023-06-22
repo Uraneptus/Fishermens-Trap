@@ -1,7 +1,0 @@
-{
-  "parent": "shimmerandglimmer:block/cube_no_shade",
-  "render_type": "minecraft:translucent",
-  "textures": {
-    "all": "shimmerandglimmer:block/bioluminescent_stained_glass"
-  }
-}

@@ -1,0 +1,240 @@
+{
+  "display": {
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        225,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "ground": {
+      "scale": [
+        0.25,
+        0.25,
+        0.25
+      ],
+      "translation": [
+        0,
+        3,
+        0
+      ]
+    },
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "scale": [
+        0.625,
+        0.625,
+        0.625
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ]
+    }
+  },
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#bottom",
+          "uv": [
+            16.0,
+            3.0,
+            0.0,
+            13.0
+          ]
+        },
+        "east": {
+          "texture": "#side",
+          "uv": [
+            3.0,
+            3.0,
+            13.0,
+            13.0
+          ]
+        },
+        "north": {
+          "texture": "#front",
+          "uv": [
+            0.0,
+            3.0,
+            16.0,
+            13.0
+          ]
+        },
+        "south": {
+          "texture": "#front",
+          "uv": [
+            0.0,
+            3.0,
+            16.0,
+            13.0
+          ]
+        },
+        "up": {
+          "texture": "#top",
+          "uv": [
+            16.0,
+            13.0,
+            0.0,
+            3.0
+          ]
+        },
+        "west": {
+          "texture": "#side",
+          "uv": [
+            3.0,
+            3.0,
+            13.0,
+            13.0
+          ]
+        }
+      },
+      "from": [
+        0,
+        0,
+        3
+      ],
+      "to": [
+        16,
+        10,
+        13
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#handles",
+          "uv": [
+            14.0,
+            7.0,
+            2.0,
+            13.0
+          ]
+        },
+        "east": {
+          "texture": "#handles",
+          "uv": [
+            2.0,
+            7.0,
+            14.0,
+            13.0
+          ]
+        },
+        "north": {
+          "texture": "#handles",
+          "uv": [
+            2.0,
+            7.0,
+            14.0,
+            13.0
+          ]
+        },
+        "south": {
+          "texture": "#handles",
+          "uv": [
+            2.0,
+            7.0,
+            14.0,
+            13.0
+          ]
+        },
+        "up": {
+          "texture": "#handles",
+          "uv": [
+            14.0,
+            13.0,
+            2.0,
+            7.0
+          ]
+        },
+        "west": {
+          "texture": "#handles",
+          "uv": [
+            14.0,
+            7.0,
+            2.0,
+            13.0
+          ]
+        }
+      },
+      "from": [
+        2,
+        10,
+        8
+      ],
+      "to": [
+        14,
+        16,
+        8
+      ]
+    }
+  ],
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "bottom": "fishermens_trap:block/fishtrap_bottom",
+    "front": "fishermens_trap:block/fishtrap_front",
+    "handles": "fishermens_trap:block/fishtrap_handles",
+    "particle": "fishermens_trap:block/fishtrap_front",
+    "side": "fishermens_trap:block/fishtrap_side",
+    "top": "fishermens_trap:block/fishtrap_top"
+  }
+}
