@@ -1,6 +1,7 @@
 package com.uraneptus.fishermens_trap;
 
 import com.mojang.logging.LogUtils;
+import com.uraneptus.fishermens_trap.client.screen.FishtrapScreen;
 import com.uraneptus.fishermens_trap.core.data.client.FTBlockStateProvider;
 import com.uraneptus.fishermens_trap.core.data.client.FTItemModelProvider;
 import com.uraneptus.fishermens_trap.core.data.client.FTLangProvider;
@@ -11,6 +12,8 @@ import com.uraneptus.fishermens_trap.core.data.server.tags.FTItemTagsProvider;
 import com.uraneptus.fishermens_trap.core.registry.FTBlockEntityType;
 import com.uraneptus.fishermens_trap.core.registry.FTBlocks;
 import com.uraneptus.fishermens_trap.core.registry.FTItems;
+import com.uraneptus.fishermens_trap.core.registry.FTMenuType;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,7 +22,7 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
@@ -35,18 +38,21 @@ public class FishermensTrap {
 
     public FishermensTrap() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        bus.addListener(this::setup);
+        bus.addListener(this::clientSetup);
         bus.addListener(this::gatherData);
 
         FTBlocks.BLOCKS.register(bus);
         FTBlockEntityType.BLOCK_ENTITY_TYPE.register(bus);
         FTItems.ITEMS.register(bus);
+        FTMenuType.MENU.register(bus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void setup(final FMLCommonSetupEvent event) {
-
+    private void clientSetup(final FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            MenuScreens.register(FTMenuType.FISHTRAP_MENU.get(), FishtrapScreen::new);
+        });
     }
 
     @SubscribeEvent

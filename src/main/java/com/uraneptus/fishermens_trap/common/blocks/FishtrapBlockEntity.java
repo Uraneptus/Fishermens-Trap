@@ -1,46 +1,91 @@
 package com.uraneptus.fishermens_trap.common.blocks;
 
+import com.uraneptus.fishermens_trap.common.blocks.container.FishtrapMenu;
 import com.uraneptus.fishermens_trap.core.registry.FTBlockEntityType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.Tags;
 
 public class FishtrapBlockEntity extends RandomizableContainerBlockEntity {
+    private NonNullList<ItemStack> items;
 
     public FishtrapBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(FTBlockEntityType.FISHTRAP.get(), pPos, pBlockState);
+        this.items = NonNullList.withSize(10, ItemStack.EMPTY);
     }
 
+    @Override
+    protected void saveAdditional(CompoundTag pTag) {
+        super.saveAdditional(pTag);
+        if (!this.trySaveLootTable(pTag)) {
+            ContainerHelper.saveAllItems(pTag, this.items);
+        }
+    }
+
+    @Override
+    public void load(CompoundTag pTag) {
+        super.load(pTag);
+        this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+        if (!this.tryLoadLootTable(pTag)) {
+            ContainerHelper.loadAllItems(pTag, this.items);
+        }
+    }
+
+    public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, FishtrapBlockEntity pBlockEntity) {
+        if (isValidFishingLocation(pLevel, pPos)) {
+            System.out.println("[Valid Location]");
+        } else {
+            System.out.println("!!None Valid Location!!");
+        }
+
+    }
+
+    private static boolean isValidFishingLocation(Level pLevel, BlockPos pPos) {
+        for (Direction direction : Direction.values()) {
+            if (pLevel.getBlockState(pPos).getFluidState().is(FluidTags.WATER)) {
+                if (pLevel.getFluidState(pPos.relative(direction)).is(FluidTags.WATER)) {
+                    if (pLevel.getBiome(pPos).is(Tags.Biomes.IS_WATER)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     @Override
     protected NonNullList<ItemStack> getItems() {
-        return null;
+        return this.items;
     }
 
     @Override
     protected void setItems(NonNullList<ItemStack> pItemStacks) {
-
+        this.items = pItemStacks;
     }
 
     @Override
     protected Component getDefaultName() {
-        return null;
+        return Component.translatable("fishermens_trap.container.fishtrap");
     }
 
     @Override
     protected AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory) {
-        return null;
+        return new FishtrapMenu(pContainerId, pInventory, this, this);
     }
 
     @Override
     public int getContainerSize() {
-        return 0;
+        return this.items.size();
     }
 }

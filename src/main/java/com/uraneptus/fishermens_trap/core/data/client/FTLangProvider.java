@@ -1,6 +1,7 @@
 package com.uraneptus.fishermens_trap.core.data.client;
 
 import com.uraneptus.fishermens_trap.FishermensTrap;
+import com.uraneptus.fishermens_trap.core.registry.FTBlocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 
@@ -12,7 +13,8 @@ public class FTLangProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-
+        add(FishermensTrap.MOD_ID + ".container.fishtrap", "Fishtrap");
+        addBlock(FTBlocks.FISHTRAP, "Fishtrap");
 
     }
 
