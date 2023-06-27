@@ -8,6 +8,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -15,10 +16,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraftforge.common.Tags;
+
+import java.util.Objects;
 
 public class FishtrapBlockEntity extends RandomizableContainerBlockEntity {
     private NonNullList<ItemStack> items;
+    private static long tickCounter = 0;
 
     public FishtrapBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(FTBlockEntityType.FISHTRAP.get(), pPos, pBlockState);
@@ -43,12 +50,17 @@ public class FishtrapBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, FishtrapBlockEntity pBlockEntity) {
-        if (isValidFishingLocation(pLevel, pPos)) {
-            System.out.println("[Valid Location]");
+        RandomSource random = pLevel.getRandom();
+        if (tickCounter >= random.nextIntBetweenInclusive(4800, 8000)) {
+            tickCounter = 0;
+            if (isValidFishingLocation(pLevel, pPos)) {
+                LootTable lootTable;
+                lootTable = Objects.requireNonNull(pLevel.getServer()).getLootTables().get(BuiltInLootTables.FISHING_JUNK);
+                //For adding items to inventory dynamically, look at Hopper way or use ItemStackHandeler
+            }
         } else {
-            System.out.println("!!None Valid Location!!");
+            tickCounter++;
         }
-
     }
 
     private static boolean isValidFishingLocation(Level pLevel, BlockPos pPos) {

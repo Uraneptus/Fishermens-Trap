@@ -25,7 +25,6 @@ public class FishtrapMenu extends AbstractContainerMenu {
         pContainer.startOpen(pPlayerInventory.player);
 
         this.addSlot(new Slot(pContainer, 0, 81, 15) {
-
             @Override
             public boolean mayPlace(ItemStack pStack) {
                 return pStack.is(FTItemTags.FISH_BAITS);
