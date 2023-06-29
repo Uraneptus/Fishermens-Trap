@@ -57,8 +57,8 @@ public class FishtrapBlock extends BaseEntityBlock implements SimpleWaterloggedB
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
         if (!pState.is(pNewState.getBlock())) {
             BlockEntity blockentity = pLevel.getBlockEntity(pPos);
-            if (blockentity instanceof Container container) {
-                Containers.dropContents(pLevel, pPos, container);
+            if (blockentity instanceof FishtrapBlockEntity fishtrapBlockEntity) {
+                Containers.dropContents(pLevel, pPos, fishtrapBlockEntity.getInventory().getItems());
                 pLevel.updateNeighbourForOutputSignal(pPos, this);
             }
 

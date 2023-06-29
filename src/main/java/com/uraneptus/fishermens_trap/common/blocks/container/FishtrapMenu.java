@@ -12,19 +12,16 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.items.SlotItemHandler;
 
 public class FishtrapMenu extends AbstractContainerMenu {
-    private final Container fishtrap;
-    public final FishtrapBlockEntity blockEntity;
+    public final FTItemStackHandler inventory;
 
-    public FishtrapMenu(int pContainerId, Inventory pPlayerInventory, FishtrapBlockEntity blockEntity, Container pContainer) {
+    public FishtrapMenu(int pContainerId, Inventory pPlayerInventory, FTItemStackHandler inventory) {
         super(FTMenuType.FISHTRAP_MENU.get(), pContainerId);
-        this.fishtrap = pContainer;
-        this.blockEntity = blockEntity;
-        checkContainerSize(pContainer, 10);
-        pContainer.startOpen(pPlayerInventory.player);
+        this.inventory = inventory;
 
-        this.addSlot(new Slot(pContainer, 0, 81, 15) {
+        this.addSlot(new SlotItemHandler(inventory, 0, 81, 15) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
                 return pStack.is(FTItemTags.FISH_BAITS);
@@ -32,7 +29,7 @@ public class FishtrapMenu extends AbstractContainerMenu {
         });
 
         for(int i1 = 0; i1 < 9; ++i1) {
-            this.addSlot(new Slot(pContainer, i1 + 1, 8 + i1 * 18, 48));
+            this.addSlot(new SlotItemHandler(inventory, i1 + 1, 8 + i1 * 18, 48));
         }
 
         for(int l = 0; l < 3; ++l) {
@@ -47,6 +44,7 @@ public class FishtrapMenu extends AbstractContainerMenu {
 
     }
 
+    /*
     private static FishtrapBlockEntity getTileEntity(Inventory playerInventory, FriendlyByteBuf data) {
         BlockEntity blockEntity = playerInventory.player.level.getBlockEntity(data.readBlockPos());
         if (blockEntity instanceof FishtrapBlockEntity fishtrapTile) {
@@ -56,8 +54,10 @@ public class FishtrapMenu extends AbstractContainerMenu {
         }
     }
 
+     */
+
     public FishtrapMenu(int windowId, Inventory playerInventory, FriendlyByteBuf data) {
-        this(windowId, playerInventory, getTileEntity(playerInventory, data), new SimpleContainer(10));
+        this(windowId, playerInventory, new FTItemStackHandler());
     }
 
     @Override
@@ -67,11 +67,11 @@ public class FishtrapMenu extends AbstractContainerMenu {
         if (slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
-            if (pIndex < this.fishtrap.getContainerSize()) {
-                if (!this.moveItemStackTo(itemstack1, this.fishtrap.getContainerSize(), this.slots.size(), true)) {
+            if (pIndex < this.inventory.getItems().size()) {
+                if (!this.moveItemStackTo(itemstack1, this.inventory.getItems().size(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.moveItemStackTo(itemstack1, 0, this.fishtrap.getContainerSize(), false)) {
+            } else if (!this.moveItemStackTo(itemstack1, 0, this.inventory.getItems().size(), false)) {
                 return ItemStack.EMPTY;
             }
 
@@ -87,6 +87,6 @@ public class FishtrapMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player pPlayer) {
-        return this.fishtrap.stillValid(pPlayer);
+        return true;
     }
 }
