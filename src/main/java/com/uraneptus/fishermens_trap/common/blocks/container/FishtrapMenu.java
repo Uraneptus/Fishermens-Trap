@@ -1,17 +1,13 @@
 package com.uraneptus.fishermens_trap.common.blocks.container;
 
-import com.uraneptus.fishermens_trap.common.blocks.FishtrapBlockEntity;
 import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
 import com.uraneptus.fishermens_trap.core.registry.FTMenuType;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class FishtrapMenu extends AbstractContainerMenu {

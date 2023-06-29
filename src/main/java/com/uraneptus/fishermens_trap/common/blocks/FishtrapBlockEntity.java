@@ -7,7 +7,6 @@ import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
 import com.uraneptus.fishermens_trap.core.registry.FTBlockEntityType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -22,12 +21,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
@@ -38,16 +35,15 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import org.jetbrains.annotations.Nullable;
-import vectorwing.farmersdelight.common.block.entity.inventory.CookingPotItemHandler;
 
 import java.util.List;
-import java.util.Objects;
 
 public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Nameable {
-    private long tickCounter = 0;
+    private static final Component FISHTRAP_NAME = Component.translatable("fishermens_trap.container.fishtrap");
     private final FTItemStackHandler handler = new FTItemStackHandler();
     private final LazyOptional<IItemHandler> input = LazyOptional.of(() -> new RangedWrapper(this.handler, 0, 0));
     private final LazyOptional<IItemHandler> output = LazyOptional.of(() -> new RangedWrapper(this.handler, 1, 9));
+    private int tickCounter = 0;
 
     public FishtrapBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(FTBlockEntityType.FISHTRAP.get(), pPos, pBlockState);
@@ -56,12 +52,14 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
     @Override
     protected void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
+        pTag.putInt("tickCounter", tickCounter);
         ContainerHelper.saveAllItems(pTag, this.handler.getItems());
     }
 
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
+        this.tickCounter = pTag.getInt("tickCounter");
         ContainerHelper.loadAllItems(pTag, this.handler.getItems());
         this.handler.deserializeNBT(pTag);
     }
@@ -86,6 +84,8 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
                     loottable = pLevel.getServer().getLootTables().get(FishermensTrap.modPrefix("gameplay/fishtraps/cod"));
                 } else if (itemInBaitSlot.is(FTItemTags.PUFFERFISH)) {
                     loottable = pLevel.getServer().getLootTables().get(FishermensTrap.modPrefix("gameplay/fishtraps/pufferfish"));
+                } else if (itemInBaitSlot.is(FTItemTags.TROPICAL_FISH)) {
+                    loottable = pLevel.getServer().getLootTables().get(FishermensTrap.modPrefix("gameplay/fishtraps/tropical_fish"));
                 } else {
                     loottable = pLevel.getServer().getLootTables().get(BuiltInLootTables.FISHING_JUNK);
                 }
@@ -130,12 +130,12 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
 
     @Override
     public Component getName() {
-        return Component.translatable("fishermens_trap.container.fishtrap");
+        return FISHTRAP_NAME;
     }
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("fishermens_trap.container.fishtrap");
+        return FISHTRAP_NAME;
     }
 
     @Nullable

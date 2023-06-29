@@ -1,15 +1,12 @@
 modLoader="javafml" #mandatory
 loaderVersion="[43,)" #mandatory
 license="GNU Lesser General Public License v3.0"
-issueTrackerURL="https://github.com/Uraneptus/ShimmerAndGlimmer/issues"
 
 [[mods]] #mandatory
 modId = "fishermens_trap" #mandatory
 version = "${file.jarVersion}" #mandatory
-logoFile = "fishermens_trap_banner.png" #optional
 authors = "Uraneptus" #optional
 credits = "Assets and Idea by toomanykitkats" #optional
-displayURL = "https://github.com/Uraneptus/ShimmerAndGlimmer"
 displayName = "Fishermens Trap" #mandatory
 description = '''
 '''

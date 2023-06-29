@@ -6,6 +6,7 @@ import com.uraneptus.fishermens_trap.core.data.client.FTBlockStateProvider;
 import com.uraneptus.fishermens_trap.core.data.client.FTItemModelProvider;
 import com.uraneptus.fishermens_trap.core.data.client.FTLangProvider;
 import com.uraneptus.fishermens_trap.core.data.server.FTLootTableProvider;
+import com.uraneptus.fishermens_trap.core.data.server.FTRecipeProvider;
 import com.uraneptus.fishermens_trap.core.data.server.tags.FTBiomeTagsProvider;
 import com.uraneptus.fishermens_trap.core.data.server.tags.FTBlockTagsProvider;
 import com.uraneptus.fishermens_trap.core.data.server.tags.FTItemTagsProvider;
@@ -71,10 +72,6 @@ public class FishermensTrap {
         generator.addProvider(includeServer, new FTItemTagsProvider(generator, blockTagProvider, fileHelper));
         generator.addProvider(includeServer, new FTBiomeTagsProvider(generator, fileHelper));
         generator.addProvider(includeServer, new FTLootTableProvider(generator));
-
-/*
-        generator.addProvider(includeServer, new SMAdvancementProvider(generator, fileHelper));
-        generator.addProvider(includeServer, new SMRecipeProvider(generator));
- */
+        generator.addProvider(includeServer, new FTRecipeProvider(generator));
     }
 }
