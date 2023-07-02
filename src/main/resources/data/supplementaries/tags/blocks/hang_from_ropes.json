@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    {"id":"fishermens_trap:fishtrap","required":false}
+  ]
+}

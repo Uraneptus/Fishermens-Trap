@@ -1,8 +1,12 @@
 package com.uraneptus.fishermens_trap.common.blocks.container;
 
+import com.mojang.datafixers.util.Pair;
+import com.uraneptus.fishermens_trap.FishermensTrap;
 import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
 import com.uraneptus.fishermens_trap.core.registry.FTMenuType;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -12,6 +16,7 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class FishtrapMenu extends AbstractContainerMenu {
     public final FTItemStackHandler inventory;
+    public static final ResourceLocation BAIT_ICON = FishermensTrap.modPrefix("item/empty_slot_bait");
 
     public FishtrapMenu(int pContainerId, Inventory pPlayerInventory, FTItemStackHandler inventory) {
         super(FTMenuType.FISHTRAP_MENU.get(), pContainerId);
@@ -21,6 +26,11 @@ public class FishtrapMenu extends AbstractContainerMenu {
             @Override
             public boolean mayPlace(ItemStack pStack) {
                 return pStack.is(FTItemTags.FISH_BAITS);
+            }
+
+            @Override
+            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+                return Pair.of(TextureAtlas.LOCATION_BLOCKS, BAIT_ICON);
             }
         });
 
@@ -39,18 +49,6 @@ public class FishtrapMenu extends AbstractContainerMenu {
         }
 
     }
-
-    /*
-    private static FishtrapBlockEntity getTileEntity(Inventory playerInventory, FriendlyByteBuf data) {
-        BlockEntity blockEntity = playerInventory.player.level.getBlockEntity(data.readBlockPos());
-        if (blockEntity instanceof FishtrapBlockEntity fishtrapTile) {
-            return fishtrapTile;
-        } else {
-            throw new IllegalStateException("Block entity is not correct! " + blockEntity);
-        }
-    }
-
-     */
 
     public FishtrapMenu(int windowId, Inventory playerInventory, FriendlyByteBuf data) {
         this(windowId, playerInventory, new FTItemStackHandler());

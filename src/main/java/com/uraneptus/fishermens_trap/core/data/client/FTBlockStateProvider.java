@@ -56,12 +56,12 @@ public class FTBlockStateProvider extends BlockStateProvider {
                 .face(Direction.UP).uvs(14, 13, 2, 7).texture("#handles").end()
                 .face(Direction.DOWN).uvs(14, 7, 2, 13).texture("#handles").end()
                 .end().transforms()
-                .transform(ItemTransforms.TransformType.THIRD_PERSON_RIGHT_HAND).rotation(75, 45, 0).translation(0, 2.5F, 0).scale(0.375F, 0.375F, 0.375F).end()
-                .transform(ItemTransforms.TransformType.THIRD_PERSON_LEFT_HAND).rotation(75, 45, 0).translation(0, 2.5F, 0).scale(0.375F, 0.375F, 0.375F).end()
-                .transform(ItemTransforms.TransformType.FIRST_PERSON_RIGHT_HAND).rotation(0, 45, 0).scale(0.4F, 0.4F, 0.4F).end()
-                .transform(ItemTransforms.TransformType.FIRST_PERSON_LEFT_HAND).rotation(0, 225, 0).scale(0.4F, 0.4F, 0.4F).end()
-                .transform(ItemTransforms.TransformType.GROUND).translation(0, 3, 0).scale(0.25F, 0.25F, 0.25F).end()
-                .transform(ItemTransforms.TransformType.GUI).rotation(30, 225, 0).scale(0.625F, 0.625F, 0.625F).end()
+                .transform(ItemTransforms.TransformType.THIRD_PERSON_RIGHT_HAND).rotation(75, -77, 2).translation(0, -2.5F, -0.75F).scale(0.64F, 0.64F, 0.64F).end()
+                .transform(ItemTransforms.TransformType.THIRD_PERSON_LEFT_HAND).rotation(75, -77, 2).translation(0, -2.5F, -0.75F).scale(0.64F, 0.64F, 0.64F).end()
+                .transform(ItemTransforms.TransformType.FIRST_PERSON_RIGHT_HAND).rotation(-5, 86, 0).translation(1, -1.25F, 0).scale(0.88F, 0.88F, 0.88F).end()
+                .transform(ItemTransforms.TransformType.FIRST_PERSON_LEFT_HAND).rotation(-5, 86, 0).translation(1, -1.25F, 0).scale(0.88F, 0.88F, 0.88F).end()
+                .transform(ItemTransforms.TransformType.GROUND).translation(0, 2, 0).scale(0.5F, 0.5F, 0.5F).end()
+                .transform(ItemTransforms.TransformType.GUI).rotation(30, 225, 0).translation(0.25F, 2.25F, 0).scale(0.79F, 0.79F, 0.79F).end()
                 .transform(ItemTransforms.TransformType.FIXED).scale(0.5F, 0.5F, 0.5F).end()
                 .end().renderType("cutout");
 
