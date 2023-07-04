@@ -1,6 +1,6 @@
 package com.uraneptus.fishermens_trap.core.data.server;
 
-import com.uraneptus.fishermens_trap.FDCompat;
+import com.uraneptus.fishermens_trap.integration.FarmersDelight;
 import com.uraneptus.fishermens_trap.FishermensTrap;
 import com.uraneptus.fishermens_trap.core.registry.FTItems;
 import net.minecraft.data.DataGenerator;
@@ -25,17 +25,17 @@ public class FTRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
-        fishtrapRecipe(FDCompat.CANVAS, Items.STRING, FTItems.FISHTRAP, consumer);
+        fishtrapRecipe(FarmersDelight.CANVAS, Items.STRING, FTItems.FISHTRAP, consumer);
     }
 
     private static void fishtrapRecipe(ItemLike FDIngredient, ItemLike vanillaIngredient, Supplier<? extends ItemLike> result, Consumer<FinishedRecipe> consumer) {
         ConditionalRecipe.builder()
-                .addCondition(new ModLoadedCondition(FDCompat.FD_MODID))
+                .addCondition(new ModLoadedCondition(FarmersDelight.FD_MODID))
                 .addRecipe(consumer1 -> fishtrapShapedBuilder(FDIngredient, result, consumer1))
-                .build(consumer, FishermensTrap.modPrefix(getItemName(result.get()) + "_" + FDCompat.FD_MODID));
+                .build(consumer, FishermensTrap.modPrefix(getItemName(result.get()) + "_" + FarmersDelight.FD_MODID));
 
         ConditionalRecipe.builder()
-                .addCondition(new NotCondition(new ModLoadedCondition(FDCompat.FD_MODID)))
+                .addCondition(new NotCondition(new ModLoadedCondition(FarmersDelight.FD_MODID)))
                 .addRecipe(consumer1 -> fishtrapShapedBuilder(vanillaIngredient, result, consumer1))
                 .build(consumer, FishermensTrap.modPrefix(getItemName(result.get())));
 

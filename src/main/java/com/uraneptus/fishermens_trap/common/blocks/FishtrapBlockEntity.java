@@ -1,6 +1,9 @@
 package com.uraneptus.fishermens_trap.common.blocks;
 
+import com.google.common.collect.ImmutableList;
 import com.uraneptus.fishermens_trap.FishermensTrap;
+import com.uraneptus.fishermens_trap.common.FTFishingData;
+import com.uraneptus.fishermens_trap.common.FishingDataReloadListener;
 import com.uraneptus.fishermens_trap.common.blocks.container.FTItemStackHandler;
 import com.uraneptus.fishermens_trap.common.blocks.container.FishtrapMenu;
 import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
@@ -19,6 +22,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -34,12 +38,15 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Nameable {
-    private static final Component FISHTRAP_NAME = Component.translatable("fishermens_trap.container.fishtrap");
+    public static final Component FISHTRAP_NAME = Component.translatable("fishermens_trap.container.fishtrap");
     private final FTItemStackHandler handler = new FTItemStackHandler();
     private final LazyOptional<IItemHandler> input = LazyOptional.of(() -> new RangedWrapper(this.handler, 0, 0));
     private final LazyOptional<IItemHandler> output = LazyOptional.of(() -> new RangedWrapper(this.handler, 1, 9));
@@ -66,7 +73,7 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
 
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, FishtrapBlockEntity pBlockEntity) {
         RandomSource random = pLevel.getRandom();
-        if (pBlockEntity.tickCounter >= random.nextIntBetweenInclusive(4800, 8000)) {
+        if (pBlockEntity.tickCounter >= random.nextIntBetweenInclusive(48, 80)) {
             pBlockEntity.tickCounter = 0;
             if (isValidFishingLocation(pLevel, pPos)) {
                 LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel)pLevel))
@@ -76,6 +83,7 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
                         .withRandom(random);
                 LootTable loottable;
                 ItemStack itemInBaitSlot = pBlockEntity.handler.getStackInSlot(0);
+                /*
                 if (itemInBaitSlot.is(FTItemTags.ANY_FISH)) {
                     loottable = pLevel.getServer().getLootTables().get(BuiltInLootTables.FISHING_FISH);
                 } else if (itemInBaitSlot.is(FTItemTags.SALMON)) {
@@ -89,8 +97,22 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
                 } else {
                     loottable = pLevel.getServer().getLootTables().get(BuiltInLootTables.FISHING_JUNK);
                 }
-                List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(LootContextParamSets.FISHING));
-                pBlockEntity.handler.addItemsToInventory(list);
+
+                 */
+                System.out.println("valid location");
+                List<FTFishingData> data = FishingDataReloadListener.FISHING_DATA.get(ForgeRegistries.ITEMS.getKey(itemInBaitSlot.getItem()));
+                System.out.println(data);
+                if (data != null) {
+                    System.out.println("data is not null");
+                    for (FTFishingData resultData : data) {
+                        //if (random.nextFloat() < resultData.chance) {
+                            System.out.println("random smaller than chance");
+                            //TODO get copy of result item
+                            pBlockEntity.handler.addItemsToInventory(Arrays.stream(resultData.result.getItems()).toList());
+                            System.out.println("items added");
+                        //}
+                    }
+                }
                 if (!itemInBaitSlot.isEmpty()) {
                     itemInBaitSlot.shrink(1);
                 }

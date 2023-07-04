@@ -1,0 +1,11 @@
+{
+  "registry_name": "minecraft:sweet_berries",
+  "drops": [
+    {
+      "result": {
+        "item": "minecraft:salmon"
+      },
+      "chance": "1.0"
+    }
+  ]
+}

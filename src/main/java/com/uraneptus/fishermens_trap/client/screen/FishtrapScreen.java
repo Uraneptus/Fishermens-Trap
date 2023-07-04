@@ -14,7 +14,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class FishtrapScreen extends AbstractContainerScreen<FishtrapMenu> {
-    private static final ResourceLocation FISHTRAP_LOCATION = FishermensTrap.modPrefix("textures/gui/fishtrap.png");
+    public static final ResourceLocation FISHTRAP_LOCATION = FishermensTrap.modPrefix("textures/gui/fishtrap.png");
 
 
     public FishtrapScreen(FishtrapMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
