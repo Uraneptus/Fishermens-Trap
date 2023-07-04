@@ -31,7 +31,7 @@ public class FTItemStackHandler extends ItemStackHandler {
 
     @Override
     public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-        if(slot == 0) {
+        if (slot == 0) {
             return stack.is(FTItemTags.FISH_BAITS);
         }
         return true;

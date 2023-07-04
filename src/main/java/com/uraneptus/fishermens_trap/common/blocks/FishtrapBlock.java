@@ -84,9 +84,9 @@ public class FishtrapBlock extends BaseEntityBlock implements SimpleWaterloggedB
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         Direction direction = pContext.getHorizontalDirection().getOpposite();
         FluidState fluidstate = pContext.getLevel().getFluidState(pContext.getClickedPos());
-        boolean hangingFlag = !pContext.getLevel().getBlockState(pContext.getClickedPos().above()).isAir();
+        boolean hangingFlag = !pContext.getLevel().getBlockState(pContext.getClickedPos().above()).isAir() && fluidstate.is(Fluids.EMPTY);
 
-        return this.defaultBlockState().setValue(FACING, direction).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER).setValue(HANGING, hangingFlag);
+        return this.defaultBlockState().setValue(FACING, direction).setValue(WATERLOGGED, fluidstate.is(Fluids.WATER)).setValue(HANGING, hangingFlag);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class FishtrapBlock extends BaseEntityBlock implements SimpleWaterloggedB
         if (pState.getValue(WATERLOGGED)) {
             pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
         }
-        if (!pLevel.getBlockState(pCurrentPos.above()).isAir()) {
+        if (!pLevel.getBlockState(pCurrentPos.above()).isAir() && pLevel.getFluidState(pCurrentPos.above()).is(Fluids.EMPTY)) {
             return pState.setValue(HANGING, true);
         }
 
