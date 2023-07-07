@@ -17,17 +17,11 @@ public class FTItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags() {
-        tag(FTItemTags.ANY_FISH).add(Items.BREAD);
-        tag(FTItemTags.PUFFERFISH).add(Items.GOLDEN_CARROT);
-        tag(FTItemTags.COD).add(Items.BEETROOT);
-        tag(FTItemTags.SALMON).add(Items.SWEET_BERRIES);
-        tag(FTItemTags.TROPICAL_FISH).add(Items.MELON_SLICE);
-
         tag(FTItemTags.FISH_BAITS)
-                .addTag(FTItemTags.ANY_FISH)
-                .addTag(FTItemTags.PUFFERFISH)
-                .addTag(FTItemTags.COD)
-                .addTag(FTItemTags.TROPICAL_FISH)
-                .addTag(FTItemTags.SALMON);
+                .add(Items.BREAD)
+                .add(Items.GOLDEN_CARROT)
+                .add(Items.BEETROOT)
+                .add(Items.SWEET_BERRIES)
+                .add(Items.MELON_SLICE);
     }
 }
