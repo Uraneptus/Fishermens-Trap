@@ -46,8 +46,8 @@ public class FishingDataReloadListener extends SimpleJsonResourceReloadListener 
                     continue;
                 }
                 Ingredient dropIngredient = Ingredient.fromJson(dropObject.getAsJsonObject("result"));
-                float chance = dropObject.getAsJsonPrimitive("chance").getAsFloat();
-                dropsList.add(new FTFishingData(dropIngredient, chance));
+                int weight = dropObject.getAsJsonPrimitive("weight").getAsInt();
+                dropsList.add(new FTFishingData(dropIngredient, weight));
             }
             FISHING_DATA.put(resourceLocation, dropsList);
         }

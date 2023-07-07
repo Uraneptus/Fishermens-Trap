@@ -15,6 +15,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.random.WeightedEntry;
+import net.minecraft.util.random.WeightedRandom;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
@@ -44,6 +46,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Nameable {
     public static final Component FISHTRAP_NAME = Component.translatable("fishermens_trap.container.fishtrap");
@@ -76,14 +79,15 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
         if (pBlockEntity.tickCounter >= random.nextIntBetweenInclusive(48, 80)) {
             pBlockEntity.tickCounter = 0;
             if (isValidFishingLocation(pLevel, pPos)) {
+                /*
                 LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel)pLevel))
                         .withParameter(LootContextParams.ORIGIN, new Vec3(pPos.getX(), pPos.getY(), pPos.getZ()))
                         .withParameter(LootContextParams.TOOL, ItemStack.EMPTY)
                         .withParameter(LootContextParams.BLOCK_ENTITY, pBlockEntity)
                         .withRandom(random);
                 LootTable loottable;
-                ItemStack itemInBaitSlot = pBlockEntity.handler.getStackInSlot(0);
-                /*
+
+
                 if (itemInBaitSlot.is(FTItemTags.ANY_FISH)) {
                     loottable = pLevel.getServer().getLootTables().get(BuiltInLootTables.FISHING_FISH);
                 } else if (itemInBaitSlot.is(FTItemTags.SALMON)) {
@@ -99,28 +103,56 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
                 }
 
                  */
-                System.out.println("valid location");
+                ItemStack itemInBaitSlot = pBlockEntity.handler.getStackInSlot(0);
                 List<FTFishingData> data = FishingDataReloadListener.FISHING_DATA.get(ForgeRegistries.ITEMS.getKey(itemInBaitSlot.getItem()));
-                System.out.println(data);
-                if (data != null) {
-                    System.out.println("data is not null");
-                    for (FTFishingData resultData : data) {
-                        //if (random.nextFloat() < resultData.chance) {
-                            System.out.println("random smaller than chance");
-                            //TODO get copy of result item
-                            pBlockEntity.handler.addItemsToInventory(Arrays.stream(resultData.result.getItems()).toList());
-                            System.out.println("items added");
-                        //}
-                    }
-                }
+                ArrayList<ItemStack> itemsList = new ArrayList<>();
+
                 if (!itemInBaitSlot.isEmpty()) {
-                    itemInBaitSlot.shrink(1);
+                    if (data != null) {
+                        for (FTFishingData resultData : data) {
+                            /*
+                            Doesn't really work with the chance, yet
+                            It has to be made sure that there is always an item added AND that it is only 1 Item
+                             */
+                            itemsList.add(getRandomItemByWeight(Arrays.stream(resultData.result.getItems()).toList(), resultData.weight, random).orElse(ItemStack.EMPTY).copy());
+
+
+
+                        }
+                        pBlockEntity.handler.addItemsToInventory(itemsList);
+                        itemInBaitSlot.shrink(1);
+                    }
                 }
             }
 
         } else {
             pBlockEntity.tickCounter++;
         }
+    }
+
+    public static Optional<ItemStack> getRandomItemByWeight(List<ItemStack> items, int weight, RandomSource randomSource) {
+        long totalWeight = 0L;
+
+        for(ItemStack itemStack : items) {
+            totalWeight += weight;
+        }
+
+        if (totalWeight < 2147483647L) {
+            if (totalWeight == 0) {
+                return Optional.empty();
+            } else {
+                int randomOfTotalWeight = randomSource.nextInt((int) totalWeight);
+                for(ItemStack item : items) {
+                    randomOfTotalWeight -= weight;
+                    if (randomOfTotalWeight < 0) {
+                        return Optional.of(item);
+                    }
+                    return Optional.empty();
+                }
+            }
+            return Optional.empty();
+        }
+        return Optional.empty();
     }
 
     private static boolean isValidFishingLocation(Level pLevel, BlockPos pPos) {

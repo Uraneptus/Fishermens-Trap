@@ -5,10 +5,10 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 public class FTFishingData {
     public final Ingredient result;
-    public final float chance;
+    public final int weight;
 
-    public FTFishingData(Ingredient result, float chance) {
+    public FTFishingData(Ingredient result, int weight) {
         this.result = result;
-        this.chance = chance;
+        this.weight = weight;
     }
 }
