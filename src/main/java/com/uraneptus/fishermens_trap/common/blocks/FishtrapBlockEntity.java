@@ -58,8 +58,6 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
         super(FTBlockEntityType.FISHTRAP.get(), pPos, pBlockState);
     }
 
-
-
     @Override
     protected void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
@@ -97,7 +95,7 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
 
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, FishtrapBlockEntity pBlockEntity) {
         RandomSource random = pLevel.getRandom();
-        if (pBlockEntity.tickCounter >= random.nextIntBetweenInclusive(48, 80)) {
+        if (pBlockEntity.tickCounter >= random.nextIntBetweenInclusive(4800, 8000)) {
             pBlockEntity.tickCounter = 0;
             if (isValidFishingLocation(pLevel, pPos)) {
                 LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel)pLevel))
@@ -117,36 +115,11 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
                     loottable = pLevel.getServer().getLootTables().get(BuiltInLootTables.FISHING_JUNK);
                 }
                 List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(LootContextParamSets.FISHING));
-                pBlockEntity.handler.addItemsToInventory(list, itemInBaitSlot);
+                pBlockEntity.handler.addItemsAndShrinkBait(list, itemInBaitSlot);
             }
         } else {
             pBlockEntity.tickCounter++;
         }
-    }
-
-    public static Optional<ItemStack> getRandomItemByWeight(List<ItemStack> items, int weight, RandomSource randomSource) {
-        long totalWeight = 0L;
-
-        for(ItemStack itemStack : items) {
-            totalWeight += weight;
-        }
-
-        if (totalWeight < 2147483647L) {
-            if (totalWeight == 0) {
-                return Optional.empty();
-            } else {
-                int randomOfTotalWeight = randomSource.nextInt((int) totalWeight);
-                for(ItemStack item : items) {
-                    randomOfTotalWeight -= weight;
-                    if (randomOfTotalWeight < 0) {
-                        return Optional.of(item);
-                    }
-                    return Optional.empty();
-                }
-            }
-            return Optional.empty();
-        }
-        return Optional.empty();
     }
 
     private static boolean isValidFishingLocation(Level pLevel, BlockPos pPos) {

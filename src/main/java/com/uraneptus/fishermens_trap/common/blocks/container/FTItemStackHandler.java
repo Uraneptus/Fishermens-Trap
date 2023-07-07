@@ -15,7 +15,7 @@ public class FTItemStackHandler extends ItemStackHandler {
         super(10);
     }
 
-    public void addItemsToInventory(List<ItemStack> list, ItemStack baitItem) {
+    public void addItemsAndShrinkBait(List<ItemStack> list, ItemStack baitItem) {
         for (ItemStack itemStack : list) {
             ItemHandlerHelper.insertItemStacked(this, itemStack, false);
 
