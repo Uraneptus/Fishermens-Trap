@@ -1,8 +1,8 @@
 package com.uraneptus.fishermens_trap.core.data.server;
 
-import com.uraneptus.fishermens_trap.integration.FarmersDelight;
 import com.uraneptus.fishermens_trap.FishermensTrap;
 import com.uraneptus.fishermens_trap.core.registry.FTItems;
+import com.uraneptus.fishermens_trap.integration.FarmersDelight;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;

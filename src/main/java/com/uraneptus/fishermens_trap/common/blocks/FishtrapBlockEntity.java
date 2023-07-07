@@ -1,9 +1,6 @@
 package com.uraneptus.fishermens_trap.common.blocks;
 
-import com.google.common.collect.ImmutableList;
 import com.uraneptus.fishermens_trap.FishermensTrap;
-import com.uraneptus.fishermens_trap.common.FTFishingData;
-import com.uraneptus.fishermens_trap.common.FishingDataReloadListener;
 import com.uraneptus.fishermens_trap.common.blocks.container.FTItemStackHandler;
 import com.uraneptus.fishermens_trap.common.blocks.container.FishtrapMenu;
 import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
@@ -11,18 +8,19 @@ import com.uraneptus.fishermens_trap.core.registry.FTBlockEntityType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,13 +39,17 @@ import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Nameable {
     public static final Component FISHTRAP_NAME = Component.translatable("fishermens_trap.container.fishtrap");
-    private final FTItemStackHandler handler = new FTItemStackHandler();
+    private final FTItemStackHandler handler = new FTItemStackHandler() {
+        @Override
+        protected void onContentsChanged(int slot) {
+            setChanged();
+        }
+    };
     private final LazyOptional<IItemHandler> input = LazyOptional.of(() -> new RangedWrapper(this.handler, 0, 0));
     private final LazyOptional<IItemHandler> output = LazyOptional.of(() -> new RangedWrapper(this.handler, 1, 9));
     private int tickCounter = 0;
@@ -56,19 +58,41 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
         super(FTBlockEntityType.FISHTRAP.get(), pPos, pBlockState);
     }
 
+
+
     @Override
     protected void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
+        pTag.put("handler", this.handler.serializeNBT());
         pTag.putInt("tickCounter", tickCounter);
-        ContainerHelper.saveAllItems(pTag, this.handler.getItems());
     }
 
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
+        this.handler.deserializeNBT(pTag.getCompound("handler"));
         this.tickCounter = pTag.getInt("tickCounter");
-        ContainerHelper.loadAllItems(pTag, this.handler.getItems());
-        this.handler.deserializeNBT(pTag);
+    }
+
+    private CompoundTag saveItems(CompoundTag compound) {
+        super.saveAdditional(compound);
+        compound.put("handler", this.handler.serializeNBT());
+        return compound;
+    }
+
+    @Nullable
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        return this.saveItems(new CompoundTag());
+    }
+
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
+        this.load(packet.getTag());
     }
 
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, FishtrapBlockEntity pBlockEntity) {
@@ -81,43 +105,20 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
                         .withParameter(LootContextParams.TOOL, ItemStack.EMPTY)
                         .withParameter(LootContextParams.BLOCK_ENTITY, pBlockEntity)
                         .withRandom(random);
-                LootTable loottable;
                 ItemStack itemInBaitSlot = pBlockEntity.handler.getStackInSlot(0);
-                /*
-                if (itemInBaitSlot.is(FTItemTags.ANY_FISH)) {
-                    loottable = pLevel.getServer().getLootTables().get(BuiltInLootTables.FISHING_FISH);
-                } else if (itemInBaitSlot.is(FTItemTags.SALMON)) {
-                    loottable = pLevel.getServer().getLootTables().get(FishermensTrap.modPrefix("gameplay/fishtraps/salmon"));
-                } else if (itemInBaitSlot.is(FTItemTags.COD)) {
-                    loottable = pLevel.getServer().getLootTables().get(FishermensTrap.modPrefix("gameplay/fishtraps/cod"));
-                } else if (itemInBaitSlot.is(FTItemTags.PUFFERFISH)) {
-                    loottable = pLevel.getServer().getLootTables().get(FishermensTrap.modPrefix("gameplay/fishtraps/pufferfish"));
-                } else if (itemInBaitSlot.is(FTItemTags.TROPICAL_FISH)) {
-                    loottable = pLevel.getServer().getLootTables().get(FishermensTrap.modPrefix("gameplay/fishtraps/tropical_fish"));
+                LootTable loottable;
+
+                //This check is actually unnecessary because you can't have items in this slot without them being of this tag
+                if (itemInBaitSlot.is(FTItemTags.FISH_BAITS)) {
+                    ResourceLocation registryName = ForgeRegistries.ITEMS.getKey(itemInBaitSlot.getItem());
+                    ResourceLocation lootTableLocation = FishermensTrap.modPrefix("gameplay/fishtrap_fishing/" + Objects.requireNonNull(registryName).getNamespace() + "/" + registryName.getPath());
+                    loottable = pLevel.getServer().getLootTables().get(lootTableLocation);
                 } else {
                     loottable = pLevel.getServer().getLootTables().get(BuiltInLootTables.FISHING_JUNK);
                 }
-
-                 */
-                System.out.println("valid location");
-                List<FTFishingData> data = FishingDataReloadListener.FISHING_DATA.get(ForgeRegistries.ITEMS.getKey(itemInBaitSlot.getItem()));
-                System.out.println(data);
-                if (data != null) {
-                    System.out.println("data is not null");
-                    for (FTFishingData resultData : data) {
-                        //if (random.nextFloat() < resultData.chance) {
-                            System.out.println("random smaller than chance");
-                            //TODO get copy of result item
-                            pBlockEntity.handler.addItemsToInventory(Arrays.stream(resultData.result.getItems()).toList());
-                            System.out.println("items added");
-                        //}
-                    }
-                }
-                if (!itemInBaitSlot.isEmpty()) {
-                    itemInBaitSlot.shrink(1);
-                }
+                List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(LootContextParamSets.FISHING));
+                pBlockEntity.handler.addItemsToInventory(list, itemInBaitSlot);
             }
-
         } else {
             pBlockEntity.tickCounter++;
         }

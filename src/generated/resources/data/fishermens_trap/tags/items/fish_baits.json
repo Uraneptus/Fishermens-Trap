@@ -1,9 +1,9 @@
 {
   "values": [
-    "#fishermens_trap:fish_baits/any_fish",
-    "#fishermens_trap:fish_baits/pufferfish",
-    "#fishermens_trap:fish_baits/cod",
-    "#fishermens_trap:fish_baits/tropical_fish",
-    "#fishermens_trap:fish_baits/salmon"
+    "minecraft:bread",
+    "minecraft:golden_carrot",
+    "minecraft:beetroot",
+    "minecraft:sweet_berries",
+    "minecraft:melon_slice"
   ]
 }

@@ -2,15 +2,12 @@ package com.uraneptus.fishermens_trap.integration.jei;
 
 import com.uraneptus.fishermens_trap.FishermensTrap;
 import com.uraneptus.fishermens_trap.client.screen.FishtrapScreen;
-import com.uraneptus.fishermens_trap.common.blocks.FishtrapBlockEntity;
-import com.uraneptus.fishermens_trap.common.blocks.container.FishtrapMenu;
 import com.uraneptus.fishermens_trap.core.registry.FTItems;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
-import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
