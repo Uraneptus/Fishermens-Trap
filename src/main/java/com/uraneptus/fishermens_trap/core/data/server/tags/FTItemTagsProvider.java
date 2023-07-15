@@ -23,5 +23,18 @@ public class FTItemTagsProvider extends ItemTagsProvider {
                 .add(Items.BEETROOT)
                 .add(Items.SWEET_BERRIES)
                 .add(Items.MELON_SLICE);
+
+        tag(FTItemTags.JEI_DISPLAY_RESULTS)
+                .addTag(FTItemTags.BREAD)
+                .addTag(FTItemTags.SWEET_BERRIES)
+                .addTag(FTItemTags.MELON_SLICE)
+                .addTag(FTItemTags.BEETROOT)
+                .addTag(FTItemTags.GOLDEN_CARROT);
+
+        tag(FTItemTags.GOLDEN_CARROT).add(Items.PUFFERFISH);
+        tag(FTItemTags.SWEET_BERRIES).add(Items.SALMON);
+        tag(FTItemTags.MELON_SLICE).add(Items.TROPICAL_FISH);
+        tag(FTItemTags.BEETROOT).add(Items.COD);
+        tag(FTItemTags.BREAD).add(Items.COD).add(Items.SALMON).add(Items.TROPICAL_FISH).add(Items.PUFFERFISH);
     }
 }

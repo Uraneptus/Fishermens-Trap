@@ -3,6 +3,7 @@ package com.uraneptus.fishermens_trap.common.blocks.container;
 import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -17,12 +18,15 @@ public class FTItemStackHandler extends ItemStackHandler {
 
     public void addItemsAndShrinkBait(List<ItemStack> list, ItemStack baitItem) {
         for (ItemStack itemStack : list) {
-            ItemHandlerHelper.insertItemStacked(this, itemStack, false);
-
-            for (int i = 1; i <= getSlots() - 1; i++) {
-                ItemStack slot = this.getStackInSlot(i);
-                if (ItemHandlerHelper.canItemStacksStackRelaxed(slot, itemStack)) {
-                    baitItem.shrink(1);
+            if (!itemStack.isEmpty()) {
+                for (int i = 0; i < getSlots(); i++) {
+                    if (getStackInSlot(i).isEmpty()) {
+                        itemStack = insertItem(i, itemStack, false);
+                        baitItem.shrink(1);
+                        if (itemStack.isEmpty()) {
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -30,6 +34,9 @@ public class FTItemStackHandler extends ItemStackHandler {
 
     @Override
     public int getSlotLimit(int slot) {
+        if (slot != 0) {
+            return 1;
+        }
         return getStackInSlot(slot).getMaxStackSize();
     }
 

@@ -5,6 +5,7 @@ import com.uraneptus.fishermens_trap.common.blocks.container.FTItemStackHandler;
 import com.uraneptus.fishermens_trap.common.blocks.container.FishtrapMenu;
 import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
 import com.uraneptus.fishermens_trap.core.registry.FTBlockEntityType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -34,6 +35,7 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -95,7 +97,8 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
 
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, FishtrapBlockEntity pBlockEntity) {
         RandomSource random = pLevel.getRandom();
-        if (pBlockEntity.tickCounter >= random.nextIntBetweenInclusive(4800, 8000)) {
+        int randomInt = FMLEnvironment.production ? random.nextIntBetweenInclusive(4800, 8000) : random.nextIntBetweenInclusive(48, 80);
+        if (pBlockEntity.tickCounter >= randomInt) {
             pBlockEntity.tickCounter = 0;
             if (isValidFishingLocation(pLevel, pPos)) {
                 LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel)pLevel))

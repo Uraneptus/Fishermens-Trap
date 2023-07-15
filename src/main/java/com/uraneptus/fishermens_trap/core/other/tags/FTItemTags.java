@@ -7,5 +7,11 @@ import net.minecraft.world.item.Item;
 
 public class FTItemTags {
     public static final TagKey<Item> FISH_BAITS = TagKey.create(Registry.ITEM_REGISTRY, FishermensTrap.modPrefix("fish_baits"));
+    public static final TagKey<Item> JEI_DISPLAY_RESULTS = TagKey.create(Registry.ITEM_REGISTRY, FishermensTrap.modPrefix("jei_display_results"));
+    public static final TagKey<Item> BEETROOT = TagKey.create(Registry.ITEM_REGISTRY, FishermensTrap.modPrefix("jei_display_results/minecraft/beetroot"));
+    public static final TagKey<Item> BREAD = TagKey.create(Registry.ITEM_REGISTRY, FishermensTrap.modPrefix("jei_display_results/minecraft/bread"));
+    public static final TagKey<Item> GOLDEN_CARROT = TagKey.create(Registry.ITEM_REGISTRY, FishermensTrap.modPrefix("jei_display_results/minecraft/golden_carrot"));
+    public static final TagKey<Item> MELON_SLICE = TagKey.create(Registry.ITEM_REGISTRY, FishermensTrap.modPrefix("jei_display_results/minecraft/melon_slice"));
+    public static final TagKey<Item> SWEET_BERRIES = TagKey.create(Registry.ITEM_REGISTRY, FishermensTrap.modPrefix("jei_display_results/minecraft/sweet_berries"));
 
 }
