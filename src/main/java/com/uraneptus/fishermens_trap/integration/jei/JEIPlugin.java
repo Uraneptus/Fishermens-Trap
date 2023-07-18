@@ -51,7 +51,10 @@ public class JEIPlugin implements IModPlugin {
             if (item.is(FTItemTags.FISH_BAITS)) {
                 ResourceLocation registryName = ForgeRegistries.ITEMS.getKey(item.getItem());
                 TagKey<Item> outputTag = TagKey.create(Registry.ITEM_REGISTRY, FishermensTrap.modPrefix("jei_display_results/" + registryName.getNamespace() + "/" + registryName.getPath()));
-                list.add(new FishtrapRecipeWrapper(item, Ingredient.of(outputTag)));
+                if (ForgeRegistries.ITEMS.tags().isKnownTagName(outputTag)) {
+                    list.add(new FishtrapRecipeWrapper(item, Ingredient.of(outputTag)));
+                }
+
             }
         }
         return list;
