@@ -3,8 +3,6 @@ package com.uraneptus.fishermens_trap.common.blocks.container;
 import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 

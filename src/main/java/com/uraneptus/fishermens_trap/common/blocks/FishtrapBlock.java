@@ -38,7 +38,6 @@ public class FishtrapBlock extends BaseEntityBlock implements SimpleWaterloggedB
     public FishtrapBlock(Properties pProperties) {
         super(pProperties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(HANGING, false).setValue(WATERLOGGED, false));
-
     }
 
     @Override
@@ -82,9 +81,10 @@ public class FishtrapBlock extends BaseEntityBlock implements SimpleWaterloggedB
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        BlockState stateAbove = pContext.getLevel().getBlockState(pContext.getClickedPos().above());
         Direction direction = pContext.getHorizontalDirection().getOpposite();
         FluidState fluidstate = pContext.getLevel().getFluidState(pContext.getClickedPos());
-        boolean hangingFlag = !pContext.getLevel().getBlockState(pContext.getClickedPos().above()).isAir() && fluidstate.is(Fluids.EMPTY);
+        boolean hangingFlag = !stateAbove.isAir() && !(stateAbove.is(Blocks.WATER) || stateAbove.is(Blocks.LAVA));
 
         return this.defaultBlockState().setValue(FACING, direction).setValue(WATERLOGGED, fluidstate.is(Fluids.WATER)).setValue(HANGING, hangingFlag);
     }
@@ -101,10 +101,11 @@ public class FishtrapBlock extends BaseEntityBlock implements SimpleWaterloggedB
 
     @Override
     public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos) {
+        BlockState stateAbove = pLevel.getBlockState(pCurrentPos.above());
         if (pState.getValue(WATERLOGGED)) {
             pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
         }
-        if (!pLevel.getBlockState(pCurrentPos.above()).isAir() && pLevel.getFluidState(pCurrentPos.above()).is(Fluids.EMPTY)) {
+        if (!stateAbove.isAir() && !(stateAbove.is(Blocks.WATER) || stateAbove.is(Blocks.LAVA))) {
             return pState.setValue(HANGING, true);
         }
 

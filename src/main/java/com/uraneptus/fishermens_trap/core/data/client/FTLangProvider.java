@@ -13,8 +13,10 @@ public class FTLangProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        add(FishermensTrap.MOD_ID + ".container.fishtrap", "Fishtrap");
-        addBlock(FTBlocks.FISHTRAP, "Fishtrap");
+        add(FishermensTrap.MOD_ID + ".container.fishtrap", "Fish Trap");
+        addBlock(FTBlocks.FISHTRAP, "Fish Trap");
+        add(FishermensTrap.MOD_ID + ".jei.fishtrap_fishing", "Fish Trap Fishing");
+        add(FishermensTrap.MOD_ID + ".jei.fishtrap_fishing.info", "Items are fished every 4-6 minutes");
 
     }
 

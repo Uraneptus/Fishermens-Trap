@@ -9,8 +9,7 @@ authors = "Uraneptus" #optional
 credits = "Assets and Idea by toomanykitkats" #optional
 displayName = "Fishermens Trap" #mandatory
 description = '''
-A mod that adds a fish trap to passively collect fish by using vanilla items as baits.
-'''
+A mod that adds a fish trap to passively collect fish by using vanilla items as baits.'''
 displayTest = "MATCH_VERSION"
 
 [[dependencies.fishermens_trap]] #optional

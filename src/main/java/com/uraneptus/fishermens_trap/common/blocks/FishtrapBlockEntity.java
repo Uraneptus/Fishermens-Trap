@@ -5,7 +5,6 @@ import com.uraneptus.fishermens_trap.common.blocks.container.FTItemStackHandler;
 import com.uraneptus.fishermens_trap.common.blocks.container.FishtrapMenu;
 import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
 import com.uraneptus.fishermens_trap.core.registry.FTBlockEntityType;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -22,6 +21,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -110,7 +110,7 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
                 LootTable loottable;
 
                 //This check is actually unnecessary because you can't have items in this slot without them being of this tag
-                if (itemInBaitSlot.is(FTItemTags.FISH_BAITS)) {
+                if (itemInBaitSlot.is(FTItemTags.FISH_BAITS) && !itemInBaitSlot.is(Items.AIR)) {
                     ResourceLocation registryName = ForgeRegistries.ITEMS.getKey(itemInBaitSlot.getItem());
                     ResourceLocation lootTableLocation = FishermensTrap.modPrefix("gameplay/fishtrap_fishing/" + Objects.requireNonNull(registryName).getNamespace() + "/" + registryName.getPath());
                     loottable = pLevel.getServer().getLootTables().get(lootTableLocation);

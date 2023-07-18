@@ -1,45 +1,26 @@
 package com.uraneptus.fishermens_trap.integration.jei;
 
+import com.google.common.collect.ImmutableList;
 import com.uraneptus.fishermens_trap.FishermensTrap;
-import com.uraneptus.fishermens_trap.client.screen.FishtrapScreen;
-import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
 import com.uraneptus.fishermens_trap.core.registry.FTItems;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.builder.IIngredientAcceptor;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.items.SlotItemHandler;
-import net.minecraftforge.registries.ForgeRegistries;
-import oshi.util.tuples.Pair;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-public class FishtrapCategory implements IRecipeCategory<FishtrapRecipeDummy> {
+public class FishtrapCategory implements IRecipeCategory<FishtrapRecipeWrapper> {
     private static final ResourceLocation FISHTRAP_LOCATION = FishermensTrap.modPrefix("textures/gui/jei_fishtrap.png");
 
     private final IDrawable background;
@@ -52,7 +33,7 @@ public class FishtrapCategory implements IRecipeCategory<FishtrapRecipeDummy> {
     }
 
     @Override
-    public RecipeType<FishtrapRecipeDummy> getRecipeType() {
+    public RecipeType<FishtrapRecipeWrapper> getRecipeType() {
         return JEIPlugin.FISHTRAP_RECIPE;
     }
 
@@ -76,28 +57,25 @@ public class FishtrapCategory implements IRecipeCategory<FishtrapRecipeDummy> {
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, FishtrapRecipeDummy recipe, IFocusGroup focuses) {
-        Map<ItemStack, List<ItemStack>> baitResults = new HashMap<>();
-        List<ItemStack> allBaits = ForgeRegistries.ITEMS.tags().getTag(FTItemTags.FISH_BAITS).stream().map(ItemStack::new).toList();
-
-        for (ItemStack bait : allBaits) {
-            ResourceLocation registryName = ForgeRegistries.ITEMS.getKey(bait.getItem());
-            ResourceLocation resultTagLocation = FishermensTrap.modPrefix("jei_display_results/" + registryName.getNamespace() + "/" + registryName.getPath());
-            TagKey<Item> resultTag = ForgeRegistries.ITEMS.tags().createTagKey(resultTagLocation);
-
-            baitResults.put(bait, ForgeRegistries.ITEMS.tags().getTag(resultTag).stream().map(ItemStack::new).toList());
-
-        }
-        System.out.println(baitResults);
-
-        builder.addSlot(RecipeIngredientRole.INPUT, 74, 1).addItemStacks(baitResults.keySet().stream().toList());
-        baitResults.forEach((itemStack, itemStacks) -> {
-
-            for (int i = 0; i < itemStacks.size(); i++) {
-                builder.addSlot(RecipeIngredientRole.OUTPUT, 1 + i * 18 , 34).addItemStacks(itemStacks);
-            }
-        });
-
-
+    public void setRecipe(IRecipeLayoutBuilder builder, FishtrapRecipeWrapper recipe, IFocusGroup focuses) {
+        builder.addSlot(RecipeIngredientRole.INPUT, 74, 1).addItemStack(recipe.getInput());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 1, 34).addItemStacks(Arrays.stream(recipe.getOutput().getItems()).toList());
     }
+
+    @Override
+    public List<Component> getTooltipStrings(FishtrapRecipeWrapper recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+        if (iconPosition(mouseX, mouseY)) {
+            return ImmutableList.of(Component.translatable(FishermensTrap.MOD_ID + ".jei." + getUid().getPath() + ".info"));
+        }
+        return Collections.emptyList();
+    }
+
+    private static boolean iconPosition(double mouseX, double mouseY) {
+        int iconPosX = 77;
+        int iconPosY = 19;
+        int iconHeight = 12;
+        int iconWidth = 10;
+        return iconPosX <= mouseX && mouseX < iconPosX + iconWidth && iconPosY <= mouseY && mouseY < iconPosY + iconHeight;
+    }
+
 }
