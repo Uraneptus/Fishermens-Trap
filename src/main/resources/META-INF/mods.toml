@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[43,)" #mandatory
+loaderVersion="[47,)" #mandatory
 license="MIT License"
 
 [[mods]] #mandatory
@@ -15,13 +15,13 @@ displayTest = "MATCH_VERSION"
 [[dependencies.fishermens_trap]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[43,)" #mandatory
+    versionRange="[47,)" #mandatory
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.fishermens_trap]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.2,)"
+    versionRange="[1.20.1,1.21)"
     ordering="NONE"
     side="BOTH"
