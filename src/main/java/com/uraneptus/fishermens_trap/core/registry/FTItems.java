@@ -13,7 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class FTItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, FishermensTrap.MOD_ID);
 
-    public static final RegistryObject<BlockItem> FISHTRAP = ITEMS.register("fishtrap", () -> new BlockItem(FTBlocks.FISHTRAP.get(), (new Item.Properties()).tab(CreativeModeTab.TAB_DECORATIONS)));
+    public static final RegistryObject<BlockItem> FISHTRAP = ITEMS.register("fishtrap", () -> new BlockItem(FTBlocks.FISHTRAP.get(), new Item.Properties()));
 
 
 }

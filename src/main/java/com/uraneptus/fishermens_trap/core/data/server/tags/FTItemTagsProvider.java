@@ -1,22 +1,30 @@
 package com.uraneptus.fishermens_trap.core.data.server.tags;
 
 import com.uraneptus.fishermens_trap.FishermensTrap;
-import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
+import com.uraneptus.fishermens_trap.core.other.FTItemTags;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.data.PackOutput;
+
+import net.minecraft.data.tags.IntrinsicHolderTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.ForgeBlockTagsProvider;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.concurrent.CompletableFuture;
 
 public class FTItemTagsProvider extends ItemTagsProvider {
 
-    public FTItemTagsProvider(DataGenerator generator, BlockTagsProvider provider, @Nullable ExistingFileHelper existingFileHelper) {
-        super(generator, provider, FishermensTrap.MOD_ID, existingFileHelper);
+    public FTItemTagsProvider(PackOutput generator, CompletableFuture<HolderLookup.Provider> pProvider, CompletableFuture<TagsProvider.TagLookup<Block>> blockProvider, @Nullable ExistingFileHelper existingFileHelper) {
+        super(generator, pProvider, blockProvider, FishermensTrap.MOD_ID, existingFileHelper);
     }
 
     @Override
-    protected void addTags() {
+    protected void addTags(HolderLookup.Provider pProvider) {
         tag(FTItemTags.FISH_BAITS)
                 .add(Items.BREAD)
                 .add(Items.GOLDEN_CARROT)

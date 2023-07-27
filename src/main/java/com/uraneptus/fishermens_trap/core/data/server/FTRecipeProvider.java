@@ -3,8 +3,9 @@ package com.uraneptus.fishermens_trap.core.data.server;
 import com.uraneptus.fishermens_trap.FishermensTrap;
 import com.uraneptus.fishermens_trap.core.registry.FTItems;
 import com.uraneptus.fishermens_trap.integration.FarmersDelight;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.item.Items;
@@ -19,13 +20,13 @@ import java.util.function.Supplier;
 @SuppressWarnings("SameParameterValue")
 public class FTRecipeProvider extends RecipeProvider {
 
-    public FTRecipeProvider(DataGenerator pGenerator) {
-        super(pGenerator);
+    public FTRecipeProvider(PackOutput output) {
+        super(output);
     }
 
     @Override
-    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
-        fishtrapRecipe(FarmersDelight.CANVAS, Items.STRING, FTItems.FISHTRAP, consumer);
+    protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
+        fishtrapRecipe(FarmersDelight.getCanvas(), Items.STRING, FTItems.FISHTRAP, consumer);
     }
 
     private static void fishtrapRecipe(ItemLike FDIngredient, ItemLike vanillaIngredient, Supplier<? extends ItemLike> result, Consumer<FinishedRecipe> consumer) {
@@ -42,7 +43,7 @@ public class FTRecipeProvider extends RecipeProvider {
     }
 
     private static void fishtrapShapedBuilder(ItemLike exchangeableIngredient, Supplier<? extends ItemLike> result, Consumer<FinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shaped(result.get(), 1).define('X', Items.STICK).define('#', exchangeableIngredient)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, result.get(), 1).define('X', Items.STICK).define('#', exchangeableIngredient)
                 .pattern("X#X")
                 .pattern("###")
                 .pattern("X#X")

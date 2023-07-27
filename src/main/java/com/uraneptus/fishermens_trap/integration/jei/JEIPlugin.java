@@ -1,7 +1,7 @@
 package com.uraneptus.fishermens_trap.integration.jei;
 
 import com.uraneptus.fishermens_trap.FishermensTrap;
-import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
+import com.uraneptus.fishermens_trap.core.other.FTItemTags;
 import com.uraneptus.fishermens_trap.core.registry.FTItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -9,7 +9,7 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -50,7 +50,7 @@ public class JEIPlugin implements IModPlugin {
         for (ItemStack item : ForgeRegistries.ITEMS.getValues().stream().map(ItemStack::new).toList()) {
             if (item.is(FTItemTags.FISH_BAITS)) {
                 ResourceLocation registryName = ForgeRegistries.ITEMS.getKey(item.getItem());
-                TagKey<Item> outputTag = TagKey.create(Registry.ITEM_REGISTRY, FishermensTrap.modPrefix("jei_display_results/" + registryName.getNamespace() + "/" + registryName.getPath()));
+                TagKey<Item> outputTag = TagKey.create(Registries.ITEM, FishermensTrap.modPrefix("jei_display_results/" + registryName.getNamespace() + "/" + registryName.getPath()));
                 if (ForgeRegistries.ITEMS.tags().isKnownTagName(outputTag)) {
                     list.add(new FishtrapRecipeWrapper(item, Ingredient.of(outputTag)));
                 }

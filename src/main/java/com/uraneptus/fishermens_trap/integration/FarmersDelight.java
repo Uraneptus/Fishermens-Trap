@@ -5,5 +5,8 @@ import vectorwing.farmersdelight.common.registry.ModItems;
 
 public class FarmersDelight {
     public static final String FD_MODID = "farmersdelight";
-    public static final Item CANVAS = ModItems.CANVAS.get();
+
+    public static Item getCanvas() {
+        return ModItems.CANVAS.get();
+    }
 }

@@ -3,7 +3,7 @@ package com.uraneptus.fishermens_trap.common.blocks;
 import com.uraneptus.fishermens_trap.FishermensTrap;
 import com.uraneptus.fishermens_trap.common.blocks.container.FTItemStackHandler;
 import com.uraneptus.fishermens_trap.common.blocks.container.FishtrapMenu;
-import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
+import com.uraneptus.fishermens_trap.core.other.FTItemTags;
 import com.uraneptus.fishermens_trap.core.registry.FTBlockEntityType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -101,11 +102,13 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
         if (pBlockEntity.tickCounter >= randomInt) {
             pBlockEntity.tickCounter = 0;
             if (isValidFishingLocation(pLevel, pPos)) {
-                LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel)pLevel))
+                LootParams lootparams = (new LootParams.Builder((ServerLevel)pLevel))
                         .withParameter(LootContextParams.ORIGIN, new Vec3(pPos.getX(), pPos.getY(), pPos.getZ()))
                         .withParameter(LootContextParams.TOOL, ItemStack.EMPTY)
                         .withParameter(LootContextParams.BLOCK_ENTITY, pBlockEntity)
-                        .withRandom(random);
+                        .create(LootContextParamSets.FISHING);
+
+
                 ItemStack itemInBaitSlot = pBlockEntity.handler.getStackInSlot(0);
                 LootTable loottable;
 
@@ -113,11 +116,11 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
                 if (itemInBaitSlot.is(FTItemTags.FISH_BAITS) && !itemInBaitSlot.is(Items.AIR)) {
                     ResourceLocation registryName = ForgeRegistries.ITEMS.getKey(itemInBaitSlot.getItem());
                     ResourceLocation lootTableLocation = FishermensTrap.modPrefix("gameplay/fishtrap_fishing/" + Objects.requireNonNull(registryName).getNamespace() + "/" + registryName.getPath());
-                    loottable = pLevel.getServer().getLootTables().get(lootTableLocation);
+                    loottable = pLevel.getServer().getLootData().getLootTable(lootTableLocation);
                 } else {
-                    loottable = pLevel.getServer().getLootTables().get(BuiltInLootTables.FISHING_JUNK);
+                    loottable = pLevel.getServer().getLootData().getLootTable(BuiltInLootTables.FISHING_JUNK);
                 }
-                List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(LootContextParamSets.FISHING));
+                List<ItemStack> list = loottable.getRandomItems(lootparams);
                 pBlockEntity.handler.addItemsAndShrinkBait(list, itemInBaitSlot);
             }
         } else {

@@ -2,7 +2,7 @@ package com.uraneptus.fishermens_trap.common.blocks.container;
 
 import com.mojang.datafixers.util.Pair;
 import com.uraneptus.fishermens_trap.FishermensTrap;
-import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
+import com.uraneptus.fishermens_trap.core.other.FTItemTags;
 import com.uraneptus.fishermens_trap.core.registry.FTMenuType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.network.FriendlyByteBuf;

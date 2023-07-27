@@ -6,6 +6,8 @@ import com.uraneptus.fishermens_trap.core.registry.FTBlocks;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -19,17 +21,13 @@ import static com.uraneptus.fishermens_trap.core.data.FTDatagenUtil.name;
 
 @SuppressWarnings("SameParameterValue")
 public class FTBlockStateProvider extends BlockStateProvider {
-    public FTBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen, FishermensTrap.MOD_ID, exFileHelper);
+    public FTBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
+        super(output, FishermensTrap.MOD_ID, exFileHelper);
     }
 
     @Override
     protected void registerStatesAndModels() {
         fishtrap(FTBlocks.FISHTRAP);
-    }
-
-    private void basicBlock(Supplier<? extends Block> block) {
-        simpleBlock(block.get());
     }
 
     private void fishtrap(Supplier<? extends Block> block) {
@@ -56,13 +54,13 @@ public class FTBlockStateProvider extends BlockStateProvider {
                 .face(Direction.UP).uvs(14, 13, 2, 7).texture("#handles").end()
                 .face(Direction.DOWN).uvs(14, 7, 2, 13).texture("#handles").end()
                 .end().transforms()
-                .transform(ItemTransforms.TransformType.THIRD_PERSON_RIGHT_HAND).rotation(75, -77, 2).translation(0, -2.5F, -0.75F).scale(0.64F, 0.64F, 0.64F).end()
-                .transform(ItemTransforms.TransformType.THIRD_PERSON_LEFT_HAND).rotation(75, -77, 2).translation(0, -2.5F, -0.75F).scale(0.64F, 0.64F, 0.64F).end()
-                .transform(ItemTransforms.TransformType.FIRST_PERSON_RIGHT_HAND).rotation(-5, 86, 0).translation(1, -1.25F, 0).scale(0.88F, 0.88F, 0.88F).end()
-                .transform(ItemTransforms.TransformType.FIRST_PERSON_LEFT_HAND).rotation(-5, 86, 0).translation(1, -1.25F, 0).scale(0.88F, 0.88F, 0.88F).end()
-                .transform(ItemTransforms.TransformType.GROUND).translation(0, 2, 0).scale(0.5F, 0.5F, 0.5F).end()
-                .transform(ItemTransforms.TransformType.GUI).rotation(30, 225, 0).translation(0.25F, 2.25F, 0).scale(0.79F, 0.79F, 0.79F).end()
-                .transform(ItemTransforms.TransformType.FIXED).scale(0.5F, 0.5F, 0.5F).end()
+                .transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND).rotation(75, -77, 2).translation(0, -2.5F, -0.75F).scale(0.64F, 0.64F, 0.64F).end()
+                .transform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND).rotation(75, -77, 2).translation(0, -2.5F, -0.75F).scale(0.64F, 0.64F, 0.64F).end()
+                .transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND).rotation(-5, 86, 0).translation(1, -1.25F, 0).scale(0.88F, 0.88F, 0.88F).end()
+                .transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND).rotation(-5, 86, 0).translation(1, -1.25F, 0).scale(0.88F, 0.88F, 0.88F).end()
+                .transform(ItemDisplayContext.GROUND).translation(0, 2, 0).scale(0.5F, 0.5F, 0.5F).end()
+                .transform(ItemDisplayContext.GUI).rotation(30, 225, 0).translation(0.25F, 2.25F, 0).scale(0.79F, 0.79F, 0.79F).end()
+                .transform(ItemDisplayContext.FIXED).scale(0.5F, 0.5F, 0.5F).end()
                 .end().renderType("cutout");
 
         ModelFile hangingFishtrap = models().getBuilder(name(block.get()) + "_hanging")

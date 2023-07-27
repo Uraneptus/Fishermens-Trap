@@ -2,9 +2,14 @@ package com.uraneptus.fishermens_trap.core.events;
 
 import com.uraneptus.fishermens_trap.FishermensTrap;
 import com.uraneptus.fishermens_trap.common.blocks.container.FishtrapMenu;
+import com.uraneptus.fishermens_trap.core.registry.FTItems;
 import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -12,9 +17,10 @@ import net.minecraftforge.fml.common.Mod;
 public class FTClientEvents {
 
     @SubscribeEvent
-    public static void onTextureStitch(TextureStitchEvent.Pre event) {
-        if (event.getAtlas().location().equals(TextureAtlas.LOCATION_BLOCKS)) {
-            event.addSprite(FishtrapMenu.BAIT_ICON);
+    public static void buildTabContents(BuildCreativeModeTabContentsEvent event) {
+        ResourceKey<CreativeModeTab> tabKey = event.getTabKey();
+        if (tabKey == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
+            event.accept(FTItems.FISHTRAP);
         }
     }
 }
