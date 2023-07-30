@@ -3,6 +3,7 @@ package com.uraneptus.fishermens_trap.common.blocks.container;
 import com.mojang.datafixers.util.Pair;
 import com.uraneptus.fishermens_trap.FishermensTrap;
 import com.uraneptus.fishermens_trap.core.other.FTItemTags;
+import com.uraneptus.fishermens_trap.core.registry.FTBlocks;
 import com.uraneptus.fishermens_trap.core.registry.FTMenuType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.network.FriendlyByteBuf;
@@ -10,17 +11,24 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class FishtrapMenu extends AbstractContainerMenu {
     public final FTItemStackHandler inventory;
+    private final ContainerLevelAccess access;
     public static final ResourceLocation BAIT_ICON = FishermensTrap.modPrefix("item/empty_slot_bait");
 
-    public FishtrapMenu(int pContainerId, Inventory pPlayerInventory, FTItemStackHandler inventory) {
+    public FishtrapMenu(int windowId, Inventory playerInventory, FriendlyByteBuf data) {
+        this(windowId, playerInventory, new FTItemStackHandler(), ContainerLevelAccess.NULL);
+    }
+
+    public FishtrapMenu(int pContainerId, Inventory pPlayerInventory, FTItemStackHandler inventory, final ContainerLevelAccess pAccess) {
         super(FTMenuType.FISHTRAP_MENU.get(), pContainerId);
         this.inventory = inventory;
+        this.access = pAccess;
 
         this.addSlot(new SlotItemHandler(inventory, 0, 81, 15) {
             @Override
@@ -50,11 +58,9 @@ public class FishtrapMenu extends AbstractContainerMenu {
 
     }
 
-    public FishtrapMenu(int windowId, Inventory playerInventory, FriendlyByteBuf data) {
-        this(windowId, playerInventory, new FTItemStackHandler());
-    }
 
-    @Override//TODO don't use inventory.items().size()
+
+    @Override
     public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(pIndex);
@@ -81,6 +87,6 @@ public class FishtrapMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player pPlayer) {
-        return true;
+        return stillValid(this.access, pPlayer, FTBlocks.FISHTRAP.get());
     }
 }

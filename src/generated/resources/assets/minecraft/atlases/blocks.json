@@ -1,0 +1,8 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "fishermens_trap:item/empty_slot_bait"
+    }
+  ]
+}

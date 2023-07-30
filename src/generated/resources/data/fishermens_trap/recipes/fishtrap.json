@@ -13,6 +13,7 @@
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
+        "category": "misc",
         "key": {
           "#": {
             "item": "minecraft:string"
@@ -28,7 +29,8 @@
         ],
         "result": {
           "item": "fishermens_trap:fishtrap"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

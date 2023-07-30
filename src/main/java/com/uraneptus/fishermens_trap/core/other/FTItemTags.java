@@ -1,7 +1,6 @@
 package com.uraneptus.fishermens_trap.core.other;
 
 import com.uraneptus.fishermens_trap.FishermensTrap;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;

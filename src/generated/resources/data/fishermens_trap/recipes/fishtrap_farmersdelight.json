@@ -10,6 +10,7 @@
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
+        "category": "misc",
         "key": {
           "#": {
             "item": "farmersdelight:canvas"
@@ -25,7 +26,8 @@
         ],
         "result": {
           "item": "fishermens_trap:fishtrap"
-        }
+        },
+        "show_notification": true
       }
     }
   ]
