@@ -1,6 +1,5 @@
 {
   "block.fishermens_trap.fishtrap": "Ятір",
   "fishermens_trap.container.fishtrap": "Ятір",
-  "fishermens_trap.jei.fishtrap_fishing": "Рибалка ятером",
-  "fishermens_trap.jei.fishtrap_fishing.info": "Предмети, що виловлються кожні 4-6 хвилин"
+  "fishermens_trap.jei.fishtrap_fishing": "Рибалка ятером"
 }
