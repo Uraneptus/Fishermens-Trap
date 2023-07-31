@@ -22,7 +22,9 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
@@ -41,6 +43,8 @@ public class FishermensTrap {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::clientSetup);
         bus.addListener(this::gatherData);
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FTConfig.COMMON);
 
         FTBlocks.BLOCKS.register(bus);
         FTBlockEntityType.BLOCK_ENTITY_TYPE.register(bus);
