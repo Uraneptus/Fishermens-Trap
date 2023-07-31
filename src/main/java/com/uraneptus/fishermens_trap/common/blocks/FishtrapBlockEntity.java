@@ -1,5 +1,6 @@
 package com.uraneptus.fishermens_trap.common.blocks;
 
+import com.uraneptus.fishermens_trap.FTConfig;
 import com.uraneptus.fishermens_trap.FishermensTrap;
 import com.uraneptus.fishermens_trap.common.blocks.container.FTItemStackHandler;
 import com.uraneptus.fishermens_trap.common.blocks.container.FishtrapMenu;
@@ -96,10 +97,16 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
         this.load(packet.getTag());
     }
 
+    public static int randomIntForCounter(RandomSource random) {
+        if (!FMLEnvironment.production) {
+            return random.nextIntBetweenInclusive(48, 80);
+        }
+        return random.nextIntBetweenInclusive(FTConfig.MIN_TICKS_TO_FISH.get(), FTConfig.MAX_TICKS_TO_FISH.get());
+    }
+
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, FishtrapBlockEntity pBlockEntity) {
         RandomSource random = pLevel.getRandom();
-        int randomInt = FMLEnvironment.production ? random.nextIntBetweenInclusive(4800, 8000) : random.nextIntBetweenInclusive(48, 80);
-        if (pBlockEntity.tickCounter >= randomInt) {
+        if (pBlockEntity.tickCounter >= randomIntForCounter(random)) {
             pBlockEntity.tickCounter = 0;
             if (isValidFishingLocation(pLevel, pPos)) {
                 LootParams lootparams = (new LootParams.Builder((ServerLevel)pLevel))
@@ -108,11 +115,9 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
                         .withParameter(LootContextParams.BLOCK_ENTITY, pBlockEntity)
                         .create(LootContextParamSets.FISHING);
 
-
                 ItemStack itemInBaitSlot = pBlockEntity.handler.getStackInSlot(0);
                 LootTable loottable;
 
-                //This check is actually unnecessary because you can't have items in this slot without them being of this tag
                 if (itemInBaitSlot.is(FTItemTags.FISH_BAITS) && !itemInBaitSlot.is(Items.AIR)) {
                     ResourceLocation registryName = ForgeRegistries.ITEMS.getKey(itemInBaitSlot.getItem());
                     ResourceLocation lootTableLocation = FishermensTrap.modPrefix("gameplay/fishtrap_fishing/" + Objects.requireNonNull(registryName).getNamespace() + "/" + registryName.getPath());
