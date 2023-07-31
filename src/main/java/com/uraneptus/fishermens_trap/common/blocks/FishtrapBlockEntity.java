@@ -1,5 +1,6 @@
 package com.uraneptus.fishermens_trap.common.blocks;
 
+import com.mojang.datafixers.util.Pair;
 import com.uraneptus.fishermens_trap.FTConfig;
 import com.uraneptus.fishermens_trap.FishermensTrap;
 import com.uraneptus.fishermens_trap.common.blocks.container.FTItemStackHandler;
@@ -97,39 +98,42 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
         this.load(packet.getTag());
     }
 
-    public static int randomIntForCounter(RandomSource random) {
+    public static Pair<Integer, Integer> getMinMaxCounterInts() {
         if (!FMLEnvironment.production) {
-            return random.nextIntBetweenInclusive(48, 80);
+            return Pair.of(48, 80);
         }
-        return random.nextIntBetweenInclusive(FTConfig.MIN_TICKS_TO_FISH.get(), FTConfig.MAX_TICKS_TO_FISH.get());
+        return Pair.of(FTConfig.MIN_TICKS_TO_FISH.get(), FTConfig.MAX_TICKS_TO_FISH.get());
     }
 
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, FishtrapBlockEntity pBlockEntity) {
         RandomSource random = pLevel.getRandom();
-        if (pBlockEntity.tickCounter >= randomIntForCounter(random)) {
-            pBlockEntity.tickCounter = 0;
-            if (isValidFishingLocation(pLevel, pPos)) {
-                LootParams lootparams = (new LootParams.Builder((ServerLevel)pLevel))
-                        .withParameter(LootContextParams.ORIGIN, new Vec3(pPos.getX(), pPos.getY(), pPos.getZ()))
-                        .withParameter(LootContextParams.TOOL, ItemStack.EMPTY)
-                        .withParameter(LootContextParams.BLOCK_ENTITY, pBlockEntity)
-                        .create(LootContextParamSets.FISHING);
+        if (getMinMaxCounterInts().getSecond() > getMinMaxCounterInts().getFirst()) {
+            if (pBlockEntity.tickCounter >= random.nextIntBetweenInclusive(getMinMaxCounterInts().getFirst(), getMinMaxCounterInts().getSecond())) {
+                pBlockEntity.tickCounter = 0;
+                if (isValidFishingLocation(pLevel, pPos)) {
+                    LootParams lootparams = (new LootParams.Builder((ServerLevel)pLevel))
+                            .withParameter(LootContextParams.ORIGIN, new Vec3(pPos.getX(), pPos.getY(), pPos.getZ()))
+                            .withParameter(LootContextParams.TOOL, ItemStack.EMPTY)
+                            .withParameter(LootContextParams.BLOCK_ENTITY, pBlockEntity)
+                            .create(LootContextParamSets.FISHING);
+                    ItemStack itemInBaitSlot = pBlockEntity.handler.getStackInSlot(0);
+                    LootTable loottable;
 
-                ItemStack itemInBaitSlot = pBlockEntity.handler.getStackInSlot(0);
-                LootTable loottable;
-
-                if (itemInBaitSlot.is(FTItemTags.FISH_BAITS) && !itemInBaitSlot.is(Items.AIR)) {
-                    ResourceLocation registryName = ForgeRegistries.ITEMS.getKey(itemInBaitSlot.getItem());
-                    ResourceLocation lootTableLocation = FishermensTrap.modPrefix("gameplay/fishtrap_fishing/" + Objects.requireNonNull(registryName).getNamespace() + "/" + registryName.getPath());
-                    loottable = pLevel.getServer().getLootData().getLootTable(lootTableLocation);
-                } else {
-                    loottable = pLevel.getServer().getLootData().getLootTable(BuiltInLootTables.FISHING_JUNK);
+                    if (itemInBaitSlot.is(FTItemTags.FISH_BAITS) && !itemInBaitSlot.is(Items.AIR)) {
+                        ResourceLocation registryName = ForgeRegistries.ITEMS.getKey(itemInBaitSlot.getItem());
+                        ResourceLocation lootTableLocation = FishermensTrap.modPrefix("gameplay/fishtrap_fishing/" + Objects.requireNonNull(registryName).getNamespace() + "/" + registryName.getPath());
+                        loottable = pLevel.getServer().getLootData().getLootTable(lootTableLocation);
+                    } else {
+                        loottable = pLevel.getServer().getLootData().getLootTable(BuiltInLootTables.FISHING_JUNK);
+                    }
+                    List<ItemStack> list = loottable.getRandomItems(lootparams);
+                    pBlockEntity.handler.addItemsAndShrinkBait(list, itemInBaitSlot);
                 }
-                List<ItemStack> list = loottable.getRandomItems(lootparams);
-                pBlockEntity.handler.addItemsAndShrinkBait(list, itemInBaitSlot);
+            } else {
+                pBlockEntity.tickCounter++;
             }
         } else {
-            pBlockEntity.tickCounter++;
+            FishermensTrap.LOGGER.error("Fish trap ticks: [Min value must be below Max value]");
         }
     }
 
