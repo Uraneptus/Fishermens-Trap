@@ -5,6 +5,7 @@ import com.uraneptus.fishermens_trap.FTConfig;
 import com.uraneptus.fishermens_trap.FishermensTrap;
 import com.uraneptus.fishermens_trap.common.blocks.container.FTItemStackHandler;
 import com.uraneptus.fishermens_trap.common.blocks.container.FishtrapMenu;
+import com.uraneptus.fishermens_trap.core.other.tags.FTBiomeTags;
 import com.uraneptus.fishermens_trap.core.other.tags.FTItemTags;
 import com.uraneptus.fishermens_trap.core.registry.FTBlockEntityType;
 import net.minecraft.core.BlockPos;
@@ -126,7 +127,7 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
                         loottable = pLevel.getServer().getLootTables().get(BuiltInLootTables.FISHING_JUNK);
                     }
                     List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(LootContextParamSets.FISHING));
-                    pBlockEntity.handler.addItemsAndShrinkBait(list, itemInBaitSlot);
+                    pBlockEntity.handler.handleItemsInsertion(list, itemInBaitSlot, random);
                 }
             } else {
                 pBlockEntity.tickCounter++;
@@ -140,7 +141,7 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
         for (Direction direction : Direction.values()) {
             if (pLevel.getBlockState(pPos).getFluidState().is(FluidTags.WATER)) {
                 if (pLevel.getFluidState(pPos.relative(direction)).is(FluidTags.WATER)) {
-                    if (pLevel.getBiome(pPos).is(Tags.Biomes.IS_WATER)) {
+                    if (pLevel.getBiome(pPos).is(FTBiomeTags.CAN_FISHTRAP_FISH)) {
                         return true;
                     }
                 }

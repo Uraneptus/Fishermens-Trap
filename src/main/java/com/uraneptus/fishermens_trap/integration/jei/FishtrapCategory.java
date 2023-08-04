@@ -24,7 +24,6 @@ import java.util.List;
 
 public class FishtrapCategory implements IRecipeCategory<FishtrapRecipeWrapper> {
     private static final ResourceLocation FISHTRAP_LOCATION = FishermensTrap.modPrefix("textures/gui/jei_fishtrap.png");
-
     private final IDrawable background;
     private final IDrawable icon;
     private final Component title;
