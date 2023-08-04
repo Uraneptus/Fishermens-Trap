@@ -35,7 +35,6 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -128,7 +127,7 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
                         loottable = pLevel.getServer().getLootData().getLootTable(BuiltInLootTables.FISHING_JUNK);
                     }
                     List<ItemStack> list = loottable.getRandomItems(lootparams);
-                    pBlockEntity.handler.addItemsAndShrinkBait(list, itemInBaitSlot);
+                    pBlockEntity.handler.handleItemsInsertion(list, itemInBaitSlot, random);
                 }
             } else {
                 pBlockEntity.tickCounter++;
