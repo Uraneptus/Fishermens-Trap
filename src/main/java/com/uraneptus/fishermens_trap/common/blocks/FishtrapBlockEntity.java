@@ -55,8 +55,8 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
             setChanged();
         }
     };
-    private final LazyOptional<IItemHandler> input = LazyOptional.of(() -> new RangedWrapper(this.handler, 0, 0));
-    private final LazyOptional<IItemHandler> output = LazyOptional.of(() -> new RangedWrapper(this.handler, 1, 9));
+    private final LazyOptional<IItemHandler> input = LazyOptional.of(() -> new RangedWrapper(this.handler, 0, 1));
+    private final LazyOptional<IItemHandler> output = LazyOptional.of(() -> new RangedWrapper(this.handler, 1, 10));
     private int tickCounter = 0;
 
     public FishtrapBlockEntity(BlockPos pPos, BlockState pBlockState) {

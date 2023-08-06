@@ -54,7 +54,7 @@ public class FishtrapMenu extends AbstractContainerMenu {
         this(windowId, playerInventory, new FTItemStackHandler());
     }
 
-    @Override//TODO don't use inventory.items().size()
+    @Override
     public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(pIndex);
