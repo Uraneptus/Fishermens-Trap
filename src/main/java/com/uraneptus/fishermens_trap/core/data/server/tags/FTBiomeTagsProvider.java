@@ -16,6 +16,6 @@ public class FTBiomeTagsProvider extends BiomeTagsProvider {
 
     @Override
     protected void addTags() {
-        tag(FTBiomeTags.CAN_FISHTRAP_FISH).addTag(Tags.Biomes.IS_WATER).addTag(BiomeTags.IS_BEACH);
+        tag(FTBiomeTags.CAN_FISHTRAP_FISH).addTag(Tags.Biomes.IS_WATER).addTag(BiomeTags.IS_BEACH).addTag(Tags.Biomes.IS_SWAMP);
     }
 }
