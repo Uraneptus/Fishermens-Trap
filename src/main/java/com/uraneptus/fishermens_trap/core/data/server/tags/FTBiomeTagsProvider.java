@@ -18,7 +18,7 @@ public class FTBiomeTagsProvider extends BiomeTagsProvider {
     }
 
     protected void addTags(HolderLookup.Provider pProvider) {
-        tag(FTBiomeTags.CAN_FISHTRAP_FISH).addTag(Tags.Biomes.IS_WATER).addTag(BiomeTags.IS_BEACH);
+        tag(FTBiomeTags.CAN_FISHTRAP_FISH).addTag(Tags.Biomes.IS_WATER).addTag(BiomeTags.IS_BEACH).addTag(Tags.Biomes.IS_SWAMP);
     }
 
 }
