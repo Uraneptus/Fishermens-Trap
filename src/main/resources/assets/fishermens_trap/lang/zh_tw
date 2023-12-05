@@ -1,0 +1,6 @@
+{
+  "block.fishermens_trap.fishtrap": "魚筌",
+  "fishermens_trap.container.fishtrap": "魚筌",
+  "fishermens_trap.jei.fishtrap_fishing": "魚筌晃動",
+  "fishermens_trap.jei.fishtrap_fishing.info": "每4-6分鐘捕魚一次"
+}
