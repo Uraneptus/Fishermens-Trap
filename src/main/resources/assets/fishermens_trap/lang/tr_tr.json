@@ -1,0 +1,9 @@
+{
+  "block.fishermens_trap.fishtrap": "Balık Tuzağı",
+  "fishermens_trap.configuration.chance": "Şans",
+  "fishermens_trap.configuration.enable_full_stack_catch": "Balık tuzağı tam istif yakalar",
+  "fishermens_trap.configuration.max_ticks": "En düşük tik",
+  "fishermens_trap.configuration.min_ticks": "En yüksek tik",
+  "fishermens_trap.container.fishtrap": "Balık Tuzağı",
+  "fishermens_trap.jei.fishtrap_fishing": "Balık Tuzağı Balıkçılığı"
+}
