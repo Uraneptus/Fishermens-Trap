@@ -131,6 +131,13 @@ public class FishtrapBlockEntity extends BlockEntity implements MenuProvider, Na
                         loottable = pLevel.getServer().reloadableRegistries().getLootTable(BuiltInLootTables.FISHING_JUNK);
                     }
                     List<ItemStack> list = loottable.getRandomItems(lootparams);
+                    //Prevent Fd slices from being collected by trap
+                    list.forEach(item -> {
+                        String name = BuiltInRegistries.ITEM.getKey(item.getItem()).getPath();
+                        if (name.contains("_slice")) {
+                            list.remove(item);
+                        }
+                    });
                     pBlockEntity.handler.handleItemsInsertion(list, itemInBaitSlot, random);
                 }
             } else {
