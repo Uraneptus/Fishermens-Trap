@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "${description}",
+  "authors": [
+    "${mod_author}"
+  ],
+  "contact": {
+    "issues": "https://github.com/Uraneptus/Fishermens-Trap/issues",
+    "sources": "https://github.com/Uraneptus/Fishermens-Trap"
+  },
+  "license": "${license}",
+  "icon": "${mod_id}.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.uraneptus.fishermens_trap.FishermensTrapFabric"
+    ],
+    "client": [
+      "dev.uraneptus.fishermens_trap.FishermensTrapFabricClient"
+    ]
+  },
+  "mixins": [
+    "${mod_id}.mixins.json",
+    "${mod_id}.fabric.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "java": ">=${java_version}"
+  },
+  "suggests": {
+    "farmersdelight": "*"
+  }
+}

@@ -1,0 +1,49 @@
+plugins {
+    id 'multiloader-loader'
+    id 'fabric-loom'
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.layered {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${parchment_minecraft}:${parchment_version}@zip")
+    }
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+
+    //for config
+    modImplementation "me.zeroeightsix:fiber:0.23.0-2"
+    include "me.zeroeightsix:fiber:0.23.0-2"
+
+    modCompileOnlyApi "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}"
+    modRuntimeOnly "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
+
+    modImplementation("vectorwing:FarmersDelight:${minecraft_version}-${fd_fabric}+refabricated") {
+        exclude(group: "net.fabricmc")
+    }
+}
+
+loom {
+    def aw = project(':Xplat').file("src/main/resources/${mod_id}.accesswidener")
+    if (aw.exists()) {
+        accessWidenerPath.set(aw)
+    }
+    mixin {
+        defaultRefmapName.set("${mod_id}.refmap.json")
+    }
+    runs {
+        client {
+            client()
+            setConfigName('Fabric Client')
+        }
+        server {
+            server()
+            setConfigName('Fabric Server')
+        }
+        configureEach {
+            runDir "../run"
+            ideConfigGenerated(true)
+        }
+    }
+}

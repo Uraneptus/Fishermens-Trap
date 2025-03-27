@@ -1,0 +1,8 @@
+// 1.21.1	2025-03-08T20:27:24.0013542	Tags for minecraft:item mod id fishermens_trap
+d6b831d3e25e96d3fcb56a2184ffa227312fd715 data/fishermens_trap/tags/item/fish_baits.json
+0a7f7a510f7afb1206ba3a140d99d12e87e96bf4 data/fishermens_trap/tags/item/jei_display_results/minecraft/air.json
+315678b2cd4c6e30ffa4f08c310e7562a8187101 data/fishermens_trap/tags/item/jei_display_results/minecraft/beetroot.json
+9848e89ff245bbfdc2c682369771182a82878a8b data/fishermens_trap/tags/item/jei_display_results/minecraft/bread.json
+58748f381d8f3508e8f58a62b0d64e706b06bc78 data/fishermens_trap/tags/item/jei_display_results/minecraft/golden_carrot.json
+8eeab6448dd6076a212959e471057cb1a16e3950 data/fishermens_trap/tags/item/jei_display_results/minecraft/melon_slice.json
+3fe6df0882f02c83c296f5dfaed148dab475c556 data/fishermens_trap/tags/item/jei_display_results/minecraft/sweet_berries.json
