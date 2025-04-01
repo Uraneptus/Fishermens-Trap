@@ -6,7 +6,7 @@ configurations {
     commonJava {
         canBeResolved = true
     }
-    commonResources {
+    xplatResources {
         canBeResolved = true
     }
 }
@@ -18,7 +18,7 @@ dependencies {
         }
     }
     commonJava project(path: ':Xplat', configuration: 'commonJava')
-    commonResources project(path: ':Xplat', configuration: 'commonResources')
+    xplatResources project(path: ':Xplat', configuration: 'xplatResources')
 }
 
 tasks.named('compileJava', JavaCompile) {
@@ -27,8 +27,8 @@ tasks.named('compileJava', JavaCompile) {
 }
 
 processResources {
-    dependsOn(configurations.commonResources)
-    from(configurations.commonResources)
+    dependsOn(configurations.xplatResources)
+    from(configurations.xplatResources)
 }
 
 tasks.named('javadoc', Javadoc).configure {
@@ -39,6 +39,6 @@ tasks.named('javadoc', Javadoc).configure {
 tasks.named('sourcesJar', Jar) {
     dependsOn(configurations.commonJava)
     from(configurations.commonJava)
-    dependsOn(configurations.commonResources)
-    from(configurations.commonResources)
+    dependsOn(configurations.xplatResources)
+    from(configurations.xplatResources)
 }

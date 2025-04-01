@@ -34,5 +34,5 @@ public interface FTAbstractions {
         @NotNull T create(BlockPos pos, BlockState state);
     }
 
-    FTAbstractions INSTANCE = FishermensTrap.loadService(FTAbstractions.class);
+
 }

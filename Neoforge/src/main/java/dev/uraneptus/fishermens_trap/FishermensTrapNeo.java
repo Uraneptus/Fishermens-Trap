@@ -28,13 +28,12 @@ public class FishermensTrapNeo {
 
     public FishermensTrapNeo(IEventBus bus, ModContainer modContainer) {
         FishermensTrap.init();
+        FTConfigNeo.init(modContainer);
 
         FTNeoforgeImpl.BLOCKS.register(bus);
         FTNeoforgeImpl.ITEMS.register(bus);
         FTNeoforgeImpl.BLOCK_ENTITIES.register(bus);
         FTNeoforgeImpl.MENU.register(bus);
-
-        modContainer.registerConfig(ModConfig.Type.COMMON, FTConfigNeo.COMMON);
 
         bus.addListener(this::commonSetup);
         bus.addListener(this::gatherData);

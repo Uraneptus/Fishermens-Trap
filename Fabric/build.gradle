@@ -47,3 +47,5 @@ loom {
         }
     }
 }
+
+sourceSets.main.resources { srcDir project(":Xplat").file('src/main/generated/').getAbsolutePath() }

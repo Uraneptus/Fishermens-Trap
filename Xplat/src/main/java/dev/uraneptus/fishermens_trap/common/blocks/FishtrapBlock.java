@@ -40,7 +40,7 @@ public class FishtrapBlock extends BaseEntityBlock implements SimpleWaterloggedB
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    public MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
 

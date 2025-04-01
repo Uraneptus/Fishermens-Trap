@@ -1,5 +1,6 @@
 package dev.uraneptus.fishermens_trap.common.blocks;
 
+import dev.uraneptus.fishermens_trap.FishermensTrap;
 import dev.uraneptus.fishermens_trap.common.tags.FTItemTags;
 import dev.uraneptus.fishermens_trap.xplat.FTConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,7 +18,7 @@ public class FishtrapFillingBehavior {
     public static void handleItemInsertion(Container container, List<ItemStack> list, ItemStack baitItem, RandomSource random) {
         for (ItemStack itemStack : list) {
             if (!itemStack.isEmpty()) {
-                fillFishtrap(container, itemStack, baitItem, random, FTConfig.INSTANCE.fullStackCatch());
+                fillFishtrap(container, itemStack, baitItem, random, FishermensTrap.CONFIG.fullStackCatch());
             }
         }
     }
@@ -40,7 +41,7 @@ public class FishtrapFillingBehavior {
         }
 
         int sizeInventory = container.getContainerSize();
-        boolean catchBucketFish = random.nextFloat() < FTConfig.INSTANCE.fishBucketChance();
+        boolean catchBucketFish = random.nextFloat() < FishermensTrap.CONFIG.fishBucketChance();
 
         if (bucketSlots.isEmpty() || !catchBucketFish) {
             // go through the inventory and try to fill up already existing items
@@ -84,7 +85,7 @@ public class FishtrapFillingBehavior {
             return stack;
         }
 
-        boolean catchBucketFish = random.nextFloat() < FTConfig.INSTANCE.fishBucketChance() || !emptySlotsLeft;
+        boolean catchBucketFish = random.nextFloat() < FishermensTrap.CONFIG.fishBucketChance() || !emptySlotsLeft;
 
         if (bucketSlots.isEmpty() || !catchBucketFish) {
             iterateAndAdd(container, stack, baitItem);
@@ -172,7 +173,7 @@ public class FishtrapFillingBehavior {
     }
 
     private static int getCollectStackLimit(int slot, ItemStack stack) {
-        return slot != 0 && !FTConfig.INSTANCE.fullStackCatch() ? 1 : stack.getMaxStackSize();
+        return slot != 0 && !FishermensTrap.CONFIG.fullStackCatch() ? 1 : stack.getMaxStackSize();
     }
 
 

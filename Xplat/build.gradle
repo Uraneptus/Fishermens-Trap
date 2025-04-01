@@ -30,7 +30,7 @@ configurations {
         canBeResolved = false
         canBeConsumed = true
     }
-    commonResources {
+    xplatResources {
         canBeResolved = false
         canBeConsumed = true
     }
@@ -38,5 +38,5 @@ configurations {
 
 artifacts {
     commonJava sourceSets.main.java.sourceDirectories.singleFile
-    commonResources sourceSets.main.resources.sourceDirectories.singleFile
+    xplatResources sourceSets.main.resources.sourceDirectories.singleFile
 }

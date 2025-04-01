@@ -48,10 +48,10 @@ public class FTConfigFabric {
         JanksonValueSerializer serializer = new JanksonValueSerializer(false);
         ConfigTree common = COMMON.configure(ConfigTree.builder());
         setupConfig(common, Paths.get("config", FishermensTrap.MOD_ID + "-common.json5"), serializer);
-        //NeatConfig.instance = CLIENT;
+        FishermensTrap.CONFIG = COMMON;
     }
 
-    private static class Common implements FTConfig {
+    public static class Common implements FTConfig {
         private final PropertyMirror<Integer> minTicksToFish = PropertyMirror.create(INTEGER);
         private final PropertyMirror<Integer> maxTicksToFish = PropertyMirror.create(INTEGER);
         private final PropertyMirror<Double> fishBucketChance = PropertyMirror.create(DOUBLE);

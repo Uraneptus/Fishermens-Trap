@@ -7,6 +7,4 @@ public interface FTConfig {
     int maxTicksToFish();
     double fishBucketChance();
     boolean fullStackCatch();
-
-    FTConfig INSTANCE = FishermensTrap.loadService(FTConfig.class);
 }

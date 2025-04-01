@@ -50,7 +50,7 @@ public class FabricImpl implements FTAbstractions {
 
     @Override
     public <T extends BlockEntity> BlockEntityType<T> createBlockEntity(FTAbstractions.BlockEntitySupplier<T> blockEntitySupplier, Block... blocks) {
-        return BlockEntityType.Builder.of(blockEntitySupplier::create, blocks).build();
+        return BlockEntityType.Builder.of(blockEntitySupplier::create, blocks).build(null);
     }
 
     @Override

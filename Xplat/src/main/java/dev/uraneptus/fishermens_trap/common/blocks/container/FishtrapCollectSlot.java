@@ -1,5 +1,6 @@
 package dev.uraneptus.fishermens_trap.common.blocks.container;
 
+import dev.uraneptus.fishermens_trap.FishermensTrap;
 import dev.uraneptus.fishermens_trap.xplat.FTConfig;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
@@ -13,6 +14,6 @@ public class FishtrapCollectSlot extends Slot {
 
     @Override
     public int getMaxStackSize(ItemStack stack) {
-        return !FTConfig.INSTANCE.fullStackCatch() ? 1 : stack.getMaxStackSize();
+        return !FishermensTrap.CONFIG.fullStackCatch() ? 1 : stack.getMaxStackSize();
     }
 }

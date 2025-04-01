@@ -113,10 +113,10 @@ public class FishtrapBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     public static Pair<Integer, Integer> getMinMaxCounterInts() {
-        if (FTAbstractions.INSTANCE.isDevEnvironment()) {
+        if (FishermensTrap.ABSTRACTIONS.isDevEnvironment()) {
             return Pair.of(48, 80);
         }
-        return Pair.of(FTConfig.INSTANCE.minTicksToFish(), FTConfig.INSTANCE.maxTicksToFish());
+        return Pair.of(FishermensTrap.CONFIG.minTicksToFish(), FishermensTrap.CONFIG.maxTicksToFish());
     }
 
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, FishtrapBlockEntity pBlockEntity) {
