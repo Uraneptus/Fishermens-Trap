@@ -30,22 +30,30 @@ public class FabricImpl implements FTAbstractions {
 
     @Override
     public <B extends Block> Supplier<B> registerBlock(String id, Supplier<B> block) {
-        return () -> Registry.register(BuiltInRegistries.BLOCK, FishermensTrap.modPrefix(id), block.get());
+        B object = block.get();
+        Registry.register(BuiltInRegistries.BLOCK, FishermensTrap.modPrefix(id), object);
+        return () -> object;
     }
 
     @Override
     public <I extends Item> Supplier<I> registerItem(String id, Supplier<I> item) {
-        return () -> Registry.register(BuiltInRegistries.ITEM, FishermensTrap.modPrefix(id), item.get());
+        I object = item.get();
+        Registry.register(BuiltInRegistries.ITEM, FishermensTrap.modPrefix(id), object);
+        return () -> object;
     }
 
     @Override
     public <B extends BlockEntityType<?>> Supplier<B> registerBlockEntityType(String id, Supplier<B> blockentityType) {
-        return () -> Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, FishermensTrap.modPrefix(id), blockentityType.get());
+        B object = blockentityType.get();
+        Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, FishermensTrap.modPrefix(id), object);
+        return () -> object;
     }
 
     @Override
     public <M extends MenuType<?>> Supplier<M> registerMenu(String id, Supplier<M> menu) {
-        return () -> Registry.register(BuiltInRegistries.MENU, FishermensTrap.modPrefix(id), menu.get());
+        M object = menu.get();
+        Registry.register(BuiltInRegistries.MENU, FishermensTrap.modPrefix(id), object);
+        return () -> object;
     }
 
     @Override

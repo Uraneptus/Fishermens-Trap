@@ -23,6 +23,8 @@ dependencies {
     annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
 
     implementation "curse.maven:farmers-delight-398521:6154807"
+
+    compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
 }
 
 configurations {

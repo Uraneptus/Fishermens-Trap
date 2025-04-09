@@ -125,11 +125,7 @@ public class FishtrapBlockEntity extends RandomizableContainerBlockEntity {
             if (pBlockEntity.tickCounter >= random.nextIntBetweenInclusive(getMinMaxCounterInts().getFirst(), getMinMaxCounterInts().getSecond())) {
                 pBlockEntity.tickCounter = 0;
                 if (isValidFishingLocation(pLevel, pPos)) {
-                    LootParams lootparams = (new LootParams.Builder((ServerLevel)pLevel))
-                            .withParameter(LootContextParams.ORIGIN, new Vec3(pPos.getX(), pPos.getY(), pPos.getZ()))
-                            .withParameter(LootContextParams.TOOL, ItemStack.EMPTY)
-                            .withParameter(LootContextParams.BLOCK_ENTITY, pBlockEntity)
-                            .create(LootContextParamSets.EMPTY);
+                    LootParams lootparams = (new LootParams.Builder((ServerLevel)pLevel)).create(LootContextParamSets.EMPTY);
                     ItemStack itemInBaitSlot = pBlockEntity.getItem(0);
                     LootTable loottable;
 

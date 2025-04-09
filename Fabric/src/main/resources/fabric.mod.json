@@ -20,6 +20,9 @@
     ],
     "client": [
       "dev.uraneptus.fishermens_trap.FishermensTrapFabricClient"
+    ],
+    "jei_mod_plugin": [
+      "dev.uraneptus.fishermens_trap.common.integration.jei.JEIPlugin"
     ]
   },
   "mixins": [
