@@ -21,7 +21,6 @@ public class FishermensTrapNeoClient {
     public FishermensTrapNeoClient(IEventBus bus, ModContainer modContainer) {
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
-        //TODO check if FTRegistries.TAB_ENTRIES exist here
         bus.addListener(this::buildTabContents);
         bus.addListener(this::registerScreens);
     }
